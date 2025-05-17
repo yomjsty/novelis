@@ -6,7 +6,6 @@ import { nextCookies } from "better-auth/next-js";
 import { polar, checkout, portal, usage, webhooks } from "@polar-sh/better-auth";
 import { Polar } from "@polar-sh/sdk";
 import { getCoinsForProduct } from "@/utils/getCoinsForProduct";
-import { getCurrentUser } from "./get-current-user";
 
 const polarClient = new Polar({
     accessToken: process.env.POLAR_ACCESS_TOKEN,
@@ -65,7 +64,6 @@ export const auth = betterAuth({
                     secret: process.env.POLAR_WEBHOOK_SECRET as string,
                     onOrderPaid: async (payload) => {
                         try {
-                            console.log("📩 Received webhook onOrderPaid:", JSON.stringify(payload, null, 2));
                             const productId = payload.data.product.id;
                             const customerId = payload.data.customer.externalId;
 
