@@ -5,6 +5,7 @@ import db from "./db";
 import { nextCookies } from "better-auth/next-js";
 import { polar, checkout, portal, usage, webhooks } from "@polar-sh/better-auth";
 import { Polar } from "@polar-sh/sdk";
+import { getCoinsForProduct } from "@/utils/getCoinsForProduct";
 
 const polarClient = new Polar({
     accessToken: process.env.POLAR_ACCESS_TOKEN,
@@ -48,6 +49,31 @@ export const auth = betterAuth({
                 usage(),
                 webhooks({
                     secret: process.env.POLAR_WEBHOOK_SECRET as string,
+                    onOrderPaid: async (payload) => {
+                        try {
+                            const { customerId, productId } = payload.data;
+
+                            const coins = getCoinsForProduct(productId);
+
+                            if (!coins || typeof coins !== "number") {
+                                console.warn("Unknown productId or coins not defined:", productId);
+                                return;
+                            }
+
+                            await db.user.update({
+                                where: { id: customerId },
+                                data: {
+                                    coins: {
+                                        increment: coins
+                                    }
+                                }
+                            });
+
+                            console.log(`✅ Credited ${coins} coins to user ${customerId}`);
+                        } catch (error) {
+                            console.error('Failed to update user balance:', error);
+                        }
+                    }
                 })
             ],
         }),
