@@ -46,9 +46,9 @@ export const auth = betterAuth({
                 }),
                 portal(),
                 usage(),
-                // webhooks({
-                //     secret: process.env.POLAR_WEBHOOK_SECRET as string,
-                // })
+                webhooks({
+                    secret: process.env.POLAR_WEBHOOK_SECRET as string,
+                })
             ],
         }),
         admin(),
