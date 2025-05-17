@@ -23,6 +23,18 @@ export const auth = betterAuth({
             clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
         },
     },
+    user: {
+        additionalFields: {
+            customerId: {
+                type: "string",
+                required: true,
+            },
+            coins: {
+                type: "number",
+                required: false,
+            }
+        }
+    },
     plugins: [
         polar({
             client: polarClient,
@@ -53,25 +65,18 @@ export const auth = betterAuth({
                     secret: process.env.POLAR_WEBHOOK_SECRET as string,
                     onOrderPaid: async (payload) => {
                         try {
-                            const { customerId, productId } = payload.data;
+                            console.log("📩 Received webhook onOrderPaid:", JSON.stringify(payload, null, 2));
+                            const productId = payload.data.product.id;
+                            const customerId = payload.data.customer.externalId;
 
-                            const user = await getCurrentUser();
-
-                            if (!user) {
-                                throw new Error("User not found");
+                            if (!customerId) {
+                                throw new Error("Customer ID not found");
                             }
-
-                            await db.user.update({
-                                where: { id: user.id },
-                                data: {
-                                    customerId: customerId
-                                }
-                            })
 
                             const coins = getCoinsForProduct(productId);
 
                             await db.user.update({
-                                where: { id: user.id },
+                                where: { id: customerId },
                                 data: {
                                     coins: {
                                         increment: coins
