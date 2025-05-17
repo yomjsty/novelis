@@ -6,6 +6,7 @@ import { nextCookies } from "better-auth/next-js";
 import { polar, checkout, portal, usage, webhooks } from "@polar-sh/better-auth";
 import { Polar } from "@polar-sh/sdk";
 import { getCoinsForProduct } from "@/utils/getCoinsForProduct";
+import { getCurrentUser } from "./get-current-user";
 
 const polarClient = new Polar({
     accessToken: process.env.POLAR_ACCESS_TOKEN,
@@ -42,7 +43,8 @@ export const auth = betterAuth({
                             slug: "70-coins"
                         },
                     ],
-                    successUrl: "/success?checkout_id={CHECKOUT_ID}",
+                    // successUrl: "/success?checkout_id={CHECKOUT_ID}",
+                    successUrl: "/dashboard",
                     authenticatedUsersOnly: true
                 }),
                 portal(),
@@ -53,15 +55,23 @@ export const auth = betterAuth({
                         try {
                             const { customerId, productId } = payload.data;
 
-                            const coins = getCoinsForProduct(productId);
+                            const user = await getCurrentUser();
 
-                            if (!coins || typeof coins !== "number") {
-                                console.warn("Unknown productId or coins not defined:", productId);
-                                return;
+                            if (!user) {
+                                throw new Error("User not found");
                             }
 
                             await db.user.update({
-                                where: { id: customerId },
+                                where: { id: user.id },
+                                data: {
+                                    customerId: customerId
+                                }
+                            })
+
+                            const coins = getCoinsForProduct(productId);
+
+                            await db.user.update({
+                                where: { id: user.id },
                                 data: {
                                     coins: {
                                         increment: coins
@@ -69,7 +79,7 @@ export const auth = betterAuth({
                                 }
                             });
 
-                            console.log(`✅ Credited ${coins} coins to user ${customerId}`);
+                            console.log(`✅ Credited ${coins} coins to user`);
                         } catch (error) {
                             console.error('Failed to update user balance:', error);
                         }
