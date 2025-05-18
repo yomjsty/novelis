@@ -50,7 +50,7 @@ export async function getAuthorNovels() {
             genres: true,
         },
         orderBy: {
-            createdAt: "asc",
+            createdAt: "desc",
         },
     });
 
@@ -97,7 +97,7 @@ export async function editNovel(id: string, novel: CreateNovel) {
         where: {
             slug: novel.slug,
             NOT: {
-                id: id, // Abaikan novel yang sedang di-edit
+                id: id,
             },
         },
     });

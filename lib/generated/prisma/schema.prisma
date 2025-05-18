@@ -107,9 +107,11 @@ model Genre {
 model Chapter {
   id        String   @id @default(cuid())
   title     String
+  slug      String   @unique
   content   String
   novelId   String
   novel     Novel    @relation(fields: [novelId], references: [id], onDelete: Cascade)
-  order     Int
+  isFree    Boolean  @default(false)
+  price     Int?
   createdAt DateTime @default(now())
 }

@@ -1,10 +1,10 @@
-import React from 'react'
-import NovelForm from "./novel-form"
+import ChapterForm from "./chapter-form";
 
 export default async function CreateNovelPage() {
+
     return (
         <div className="flex flex-col gap-4">
-            <NovelForm />
+            <ChapterForm />
         </div>
     )
 }

@@ -22,6 +22,11 @@ export default async function DashboardPage() {
                     Go to novels page
                 </Button>
             </Link>
+            <Link href="/dashboard/chapters">
+                <Button>
+                    Go to chapters page
+                </Button>
+            </Link>
         </div>
     )
 }

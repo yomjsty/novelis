@@ -6,3 +6,12 @@ export interface CreateNovel {
     tags: string[];
     featuredImage: string | null;
 }
+
+export interface CreateChapter {
+    title: string;
+    slug: string;
+    content: string;
+    novelId: string;
+    isFree: boolean;
+    price: number | null;
+}
