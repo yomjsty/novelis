@@ -2,23 +2,24 @@
 
 import db from "@/lib/db"
 import { getCurrentUser } from "@/lib/get-current-user"
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 
 export async function createGenre(name: string) {
     const user = await getCurrentUser()
     if (!user) throw new Error("Unauthorized")
-    if (user.role !== "admin") throw new Error("You are not authorized to delete a genre")
+    if (user.role !== "admin") throw new Error("You are not authorized to create a genre")
 
-    const isUnique = await db.genre.findFirst({
-        where: { name }
-    })
-
-    if (isUnique) throw new Error("Genre already exists")
-
-    const genre = await db.genre.create({
-        data: { name }
-    })
-
-    return genre;
+    try {
+        const genre = await db.genre.create({
+            data: { name }
+        })
+        return genre;
+    } catch (error) {
+        if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
+            throw new Error(`Genre "${name}" already exists`)
+        }
+        throw error;
+    }
 }
 
 export async function getGenres() {

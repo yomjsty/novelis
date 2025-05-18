@@ -9994,14 +9994,14 @@ export namespace Prisma {
 
   export type GenreWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: GenreWhereInput | GenreWhereInput[]
     OR?: GenreWhereInput[]
     NOT?: GenreWhereInput | GenreWhereInput[]
-    name?: StringFilter<"Genre"> | string
     createdAt?: DateTimeFilter<"Genre"> | Date | string
     updatedAt?: DateTimeFilter<"Genre"> | Date | string
     novels?: NovelListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type GenreOrderByWithAggregationInput = {
     id?: SortOrder

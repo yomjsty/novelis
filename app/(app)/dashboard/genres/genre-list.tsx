@@ -78,14 +78,6 @@ export default function GenreList() {
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
-                    {/* <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => mutate(genre.id)}
-                        disabled={isPending}
-                    >
-                        {isPending ? "Deleting..." : "Delete"}
-                    </Button> */}
                 </div>
             ))}
         </div>
