@@ -19,11 +19,9 @@ export default async function GenresPage() {
     return (
         <div className="flex flex-col items-center justify-center h-screen gap-4">
             <h1 className="text-2xl font-bold">Genres</h1>
+            <GenreForm />
             <HydrationBoundary state={dehydrate(queryClient)}>
-                <GenreForm />
-                {/* <Suspense fallback={<div>Loading...</div>}> */}
                 <GenreList />
-                {/* </Suspense> */}
             </HydrationBoundary>
         </div>
     )

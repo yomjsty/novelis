@@ -5,7 +5,6 @@ import db from "./db";
 import { nextCookies } from "better-auth/next-js";
 import { polar, checkout, portal, usage, webhooks } from "@polar-sh/better-auth";
 import { Polar } from "@polar-sh/sdk";
-import { getCoinsForProduct } from "@/utils/getCoinsForProduct";
 
 const polarClient = new Polar({
     accessToken: process.env.POLAR_ACCESS_TOKEN,
@@ -71,7 +70,15 @@ export const auth = betterAuth({
                                 throw new Error("Customer ID not found");
                             }
 
-                            const coins = getCoinsForProduct(productId);
+                            let coins = 0;
+
+                            if (productId === "d2f14d56-eb91-4466-ab2e-501a9755ae7f") {
+                                coins = 10;
+                            } else if (productId === "36870a5a-1489-4dc2-beb3-1528d5a79cf1") {
+                                coins = 30;
+                            } else if (productId === "05f8b341-2e93-44c6-9aad-b7b4c879ea13") {
+                                coins = 70;
+                            }
 
                             await db.user.update({
                                 where: { id: customerId },
