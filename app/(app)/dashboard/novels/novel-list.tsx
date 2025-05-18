@@ -1,0 +1,89 @@
+"use client"
+
+import { deleteAuthorNovel, getAuthorNovels } from "@/actions/novel"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button";
+import { Loader2, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+
+export default function NovelList() {
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["novels"],
+        queryFn: getAuthorNovels,
+    })
+    const queryClient = useQueryClient();
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: deleteAuthorNovel,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ["novels"] })
+            toast.success(`Novel ${data.title} deleted successfully`)
+        },
+        onError: (error: Error) => {
+            toast.error(error.message || "Failed to delete novel")
+        }
+    })
+    if (isLoading) return <div>Loading...</div>
+
+    if (isError) return <div>Gagal memuat novel.</div>
+
+    if (!data || data.length === 0) {
+        return <div>Tidak ada novel tersedia.</div>
+    }
+
+    return (
+        <div className="flex flex-col gap-2">
+            {data.map((novel) => (
+                <div key={novel.id} className="flex justify-between items-center gap-4">
+                    <span>{novel.title}</span>
+                    <div className="flex gap-2">
+                        {novel.genres.map((genre) => (
+                            <span key={genre.id}>{genre.name}</span>
+                        ))}
+                    </div>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button
+                                size="sm"
+                                variant="destructive"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete the novel.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <Button
+                                    variant="destructive"
+                                    onClick={() => mutate(novel.id)}
+                                    disabled={isPending}
+                                >
+                                    {isPending ? <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        Deleting
+                                    </> : "Delete"}
+                                </Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
+            ))}
+        </div>
+    )
+}
