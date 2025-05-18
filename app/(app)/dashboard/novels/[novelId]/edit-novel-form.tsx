@@ -63,7 +63,7 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name" className="text-right">
+                <Label htmlFor="name">
                     Title
                 </Label>
                 <Input
@@ -85,7 +85,7 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name" className="text-right">
+                <Label htmlFor="name">
                     Synopsis
                 </Label>
                 <Textarea
@@ -97,19 +97,19 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name" className="text-right">
+                <Label htmlFor="name">
                     Genres
                 </Label>
                 <GenreMultiselect genres={genres} setGenres={setGenres} />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name" className="text-right">
+                <Label htmlFor="name">
                     Tags
                 </Label>
                 <TagsInput tags={tags} setTags={setTags} />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name" className="text-right">
+                <Label htmlFor="name">
                     Featured Image
                 </Label>
                 <div className="space-y-4">

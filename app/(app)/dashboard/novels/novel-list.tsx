@@ -36,10 +36,10 @@ export default function NovelList() {
     })
     if (isLoading) return <div>Loading...</div>
 
-    if (isError) return <div>Gagal memuat novel.</div>
+    if (isError) return <div>Failed to load novels.</div>
 
     if (!data || data.length === 0) {
-        return <div>Tidak ada novel tersedia.</div>
+        return <div>No novels available.</div>
     }
 
     return (

@@ -1,6 +1,6 @@
 "use client"
 
-import { createChapter } from "@/actions/chapter"
+import { editChapter } from "@/actions/chapter"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useMutation } from "@tanstack/react-query"
@@ -13,29 +13,31 @@ import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Chapter } from "@/lib/generated/prisma"
+import { CreateChapter } from "@/types/types"
 
-export default function ChapterForm() {
-    const [title, setTitle] = useState("")
-    const [slug, setSlug] = useState("")
-    const [content, setContent] = useState("")
-    const [novelId, setNovelId] = useState("")
-    const [isFree, setIsFree] = useState(false)
-    const [price, setPrice] = useState<number | null>(12)
+export default function EditChapterForm({ chapter }: { chapter: Chapter }) {
+    const [title, setTitle] = useState(chapter.title)
+    const [slug, setSlug] = useState(chapter.slug)
+    const [content, setContent] = useState(chapter.content)
+    const [novelId, setNovelId] = useState(chapter.novelId)
+    const [isFree, setIsFree] = useState(chapter.isFree)
+    const [price, setPrice] = useState<number | null>(chapter.price)
     const router = useRouter();
 
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: createChapter,
+        mutationFn: (data: CreateChapter) => editChapter(chapter.id, data),
         onSuccess: () => {
-            toast.success(`Chapter ${title} created successfully`)
+            toast.success(`Chapter ${title} updated successfully`)
             queryClient.invalidateQueries({
                 queryKey: ["chapters"]
             })
-            router.push(`/dashboard/chapters`)
+            router.refresh();
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Failed to create chapter.")
+            toast.error(error.message || "Failed to update chapter.")
         },
     })
 
@@ -99,7 +101,7 @@ export default function ChapterForm() {
                 <Label htmlFor="name">
                     Select Novel
                 </Label>
-                <NovelSelect onChange={setNovelId} />
+                <NovelSelect onChange={setNovelId} defaultValue={chapter.novelId} />
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2">
@@ -147,10 +149,10 @@ export default function ChapterForm() {
                 {isPending ? (
                     <>
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        Creating...
+                        Updating...
                     </>
-                ) : 'Create Chapter'}
+                ) : 'Update Chapter'}
             </Button>
-        </form>
+        </form >
     )
 }

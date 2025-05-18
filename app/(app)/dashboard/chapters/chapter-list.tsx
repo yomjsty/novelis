@@ -1,6 +1,5 @@
 "use client"
 
-import { deleteNovel } from "@/actions/novel"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
     AlertDialog,
@@ -16,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
-import { getAuthorChapters } from "@/actions/chapter";
+import { deleteChapter, getAuthorChapters } from "@/actions/chapter";
 
 export default function ChapterList() {
     const { data, isLoading, isError } = useQuery({
@@ -26,13 +25,13 @@ export default function ChapterList() {
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: deleteNovel,
+        mutationFn: deleteChapter,
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ["novels"] })
-            toast.success(`Novel ${data.title} deleted successfully`)
+            queryClient.invalidateQueries({ queryKey: ["chapters"] })
+            toast.success(`Chapter ${data.title} deleted successfully`)
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Failed to delete novel")
+            toast.error(error.message || "Failed to delete chapter")
         }
     })
     if (isLoading) return <div>Loading...</div>
@@ -64,7 +63,7 @@ export default function ChapterList() {
                             <AlertDialogHeader>
                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete the novel.
+                                    This action cannot be undone. This will permanently delete the chapter.
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

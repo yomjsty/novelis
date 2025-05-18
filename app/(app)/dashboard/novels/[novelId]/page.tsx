@@ -2,7 +2,7 @@ import { getNovelById } from "@/actions/novel";
 import EditNovelForm from "./edit-novel-form";
 import { notFound } from "next/navigation";
 
-export default async function EditNovel({ params }: { params: Promise<{ novelId: string }> }) {
+export default async function EditNovelPage({ params }: { params: Promise<{ novelId: string }> }) {
     const { novelId } = await params;
     const novel = await getNovelById(novelId);
 

@@ -7,7 +7,7 @@ export default function RegisterPage() {
         <main className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
             <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
                 <h1 className="text-2xl font-bold mb-6">
-                    Register to LinkFuse
+                    Register to Novelis
                 </h1>
                 <button
                     onClick={async () => {

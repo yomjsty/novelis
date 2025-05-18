@@ -131,7 +131,6 @@ export async function deleteNovel(id: string) {
     const user = await getCurrentUser();
     if (!user) throw new Error("Unauthorized");
 
-    // Tentukan kondisi 'where' berdasarkan peran
     let whereCondition;
 
     if (user.role === "admin") {
