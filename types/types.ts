@@ -3,4 +3,6 @@ export interface CreateNovel {
     slug: string;
     synopsis: string;
     genres: string[];
+    tags: string[];
+    featuredImage: string | null;
 }

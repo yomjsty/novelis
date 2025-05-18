@@ -9,34 +9,40 @@ import GenreMultiselect from "./genre-multiselect"
 import { Textarea } from "@/components/ui/textarea"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { createNovel } from "@/actions/novel"
+import { editNovel } from "@/actions/novel"
 import { useRouter } from "next/navigation"
 import { UploadDropzone } from "@/utils/uploadthing"
 import Image from "next/image"
 import TagsInput from "./tags-input"
 import { Tag } from "emblor"
+import { Novel, Genre } from "@/lib/generated/prisma"
+import { CreateNovel } from "@/types/types"
 
-export default function NovelForm() {
-    const [title, setTitle] = useState("")
-    const [slug, setSlug] = useState("")
-    const [synopsis, setSynopsis] = useState("")
-    const [genres, setGenres] = useState<string[]>([])
-    const [tags, setTags] = useState<Tag[]>([])
-    const [featuredImage, setFeaturedImage] = useState<string | null>(null)
+type NovelWithGenres = Novel & {
+    genres: Genre[]
+}
+
+export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
+    const [title, setTitle] = useState(novel.title)
+    const [slug, setSlug] = useState(novel.slug)
+    const [synopsis, setSynopsis] = useState(novel.synopsis || "")
+    const [genres, setGenres] = useState<string[]>(novel.genres.map((genre) => genre.id))
+    const [tags, setTags] = useState<Tag[]>(novel.tags.map(tag => ({ id: tag, text: tag })))
+    const [featuredImage, setFeaturedImage] = useState(novel.featuredImage || "")
     const queryClient = useQueryClient();
     const router = useRouter();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: createNovel,
+        mutationFn: (data: CreateNovel) => editNovel(novel.id, data),
         onSuccess: () => {
-            toast.success(`Novel ${title} created successfully`)
+            toast.success(`Novel ${title} updated successfully`)
             queryClient.invalidateQueries({
                 queryKey: ["novels"]
             })
-            router.push(`/dashboard/novels`)
+            router.refresh();
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Failed to create novel.")
+            toast.error(error.message || "Failed to update novel.")
         },
     })
 
@@ -140,9 +146,9 @@ export default function NovelForm() {
                 {isPending ? (
                     <>
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        Creating...
+                        Updating...
                     </>
-                ) : 'Create Novel'}
+                ) : 'Update Novel'}
             </Button>
         </form>
     )

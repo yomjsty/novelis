@@ -450,7 +450,7 @@ const MultipleSelector = ({
               <div
                 key={option.value}
                 className={cn(
-                  "animate-fadeIn bg-background text-secondary-foreground hover:bg-background relative inline-flex h-7 cursor-default items-center rounded-md border ps-2 pe-7 pl-2 text-xs font-medium transition-all disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 data-fixed:pe-2",
+                  "animate-fadeIn bg-background text-secondary-foreground hover:bg-background relative inline-flex h-7 cursor-default items-center rounded-md border ps-2 pe-7 pl-2 text-xs font-medium transition-all disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 data-fixed:pe-2 capitalize",
                   badgeClassName
                 )}
                 data-fixed={option.fixed}
@@ -505,7 +505,7 @@ const MultipleSelector = ({
                 : placeholder
             }
             className={cn(
-              "placeholder:text-muted-foreground/70 flex-1 bg-transparent outline-hidden disabled:cursor-not-allowed",
+              "placeholder:text-muted-foreground/70 flex-1 bg-transparent outline-hidden disabled:cursor-not-allowed capitalize",
               {
                 "w-full": hidePlaceholderWhenSelected,
                 "px-3 py-2": selected.length === 0,
@@ -526,7 +526,7 @@ const MultipleSelector = ({
                 disabled ||
                 selected.length < 1 ||
                 selected.filter((s) => s.fixed).length === selected.length) &&
-                "hidden"
+              "hidden"
             )}
             aria-label="Clear all"
           >
@@ -545,7 +545,7 @@ const MultipleSelector = ({
         >
           {open && (
             <CommandList
-              className="bg-popover text-popover-foreground shadow-lg outline-hidden"
+              className="bg-popover text-popover-foreground shadow-lg outline-hidden capitalize"
               onMouseLeave={() => {
                 setOnScrollbar(false)
               }}
@@ -595,7 +595,7 @@ const MultipleSelector = ({
                               className={cn(
                                 "cursor-pointer",
                                 option.disable &&
-                                  "pointer-events-none cursor-not-allowed opacity-50"
+                                "pointer-events-none cursor-not-allowed opacity-50"
                               )}
                             >
                               {option.label}

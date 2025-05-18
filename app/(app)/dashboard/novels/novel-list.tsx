@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteAuthorNovel, getAuthorNovels } from "@/actions/novel"
+import { deleteNovel, getAuthorNovels } from "@/actions/novel"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
     AlertDialog,
@@ -13,8 +13,9 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function NovelList() {
     const { data, isLoading, isError } = useQuery({
@@ -24,7 +25,7 @@ export default function NovelList() {
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: deleteAuthorNovel,
+        mutationFn: deleteNovel,
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["novels"] })
             toast.success(`Novel ${data.title} deleted successfully`)
@@ -51,6 +52,9 @@ export default function NovelList() {
                             <span key={genre.id}>{genre.name}</span>
                         ))}
                     </div>
+                    <Link href={`/dashboard/novels/${novel.id}`}>
+                        <Button size="sm"><Pencil className="w-4 h-4" /></Button>
+                    </Link>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <Button

@@ -12,17 +12,26 @@ export async function createNovel(novel: CreateNovel) {
         throw new Error("You are not authorized to create a novel");
     }
 
+    const existingNovel = await db.novel.findUnique({ where: { slug: novel.slug } });
+    if (existingNovel) {
+        throw new Error("Novel with this slug already exists");
+    }
+
     const createdNovel = await db.novel.create({
         data: {
             title: novel.title,
             slug: novel.slug,
             synopsis: novel.synopsis,
-            authorId: user.id,
             genres: {
                 connect: novel.genres.map((genreId) => ({
                     id: genreId,
                 })),
             },
+            tags: {
+                set: novel.tags,
+            },
+            featuredImage: novel.featuredImage,
+            authorId: user.id,
         },
     });
 
@@ -48,7 +57,77 @@ export async function getAuthorNovels() {
     return novels;
 }
 
-export async function deleteAuthorNovel(id: string) {
+export async function getNovelById(id: string) {
+    const novel = await db.novel.findUnique({
+        where: { id },
+        include: {
+            genres: true,
+        }
+    });
+    return novel;
+}
+
+export async function getNovelBySlug(slug: string) {
+    const novel = await db.novel.findUnique({ where: { slug } });
+    return novel;
+}
+
+export async function editNovel(id: string, novel: CreateNovel) {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Unauthorized");
+
+    if (user.role !== "author" && user.role !== "admin") {
+        throw new Error("You are not authorized to edit this novel");
+    }
+
+    const novelToEdit = await db.novel.findUnique({
+        where: { id },
+        select: { authorId: true },
+    });
+
+    if (!novelToEdit) {
+        throw new Error("Novel not found");
+    }
+
+    if (user.role !== "admin" && novelToEdit.authorId !== user.id) {
+        throw new Error("You are not authorized to edit this novel");
+    }
+
+    const existingNovelWithSlug = await db.novel.findFirst({
+        where: {
+            slug: novel.slug,
+            NOT: {
+                id: id, // Abaikan novel yang sedang di-edit
+            },
+        },
+    });
+
+    if (existingNovelWithSlug) {
+        throw new Error("Novel with this slug already exists");
+    }
+
+    const updatedNovel = await db.novel.update({
+        where: { id },
+        data: {
+            title: novel.title,
+            slug: novel.slug,
+            synopsis: novel.synopsis,
+            genres: {
+                set: novel.genres.map((genreId) => ({
+                    id: genreId,
+                })),
+            },
+            tags: {
+                set: novel.tags,
+            },
+            featuredImage: novel.featuredImage,
+        },
+    });
+
+    return updatedNovel;
+}
+
+export async function deleteNovel(id: string) {
     const user = await getCurrentUser();
     if (!user) throw new Error("Unauthorized");
 
