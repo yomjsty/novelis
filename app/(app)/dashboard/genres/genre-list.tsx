@@ -6,7 +6,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -15,7 +14,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Trash2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 
 export default function GenreList() {
     const { data, isLoading, isError } = useQuery({
@@ -71,7 +70,10 @@ export default function GenreList() {
                                     onClick={() => mutate(genre.id)}
                                     disabled={isPending}
                                 >
-                                    {isPending ? "Deleting..." : "Delete"}
+                                    {isPending ? <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        Deleting
+                                    </> : "Delete"}
                                 </Button>
                             </AlertDialogFooter>
                         </AlertDialogContent>

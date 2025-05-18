@@ -1,6 +1,6 @@
 "use server"
 
-import React, { Suspense } from 'react'
+import React from 'react'
 import GenreForm from "./genre-form"
 import { getQueryClient } from "@/lib/get-query-client";
 import GenreList from "./genre-list";

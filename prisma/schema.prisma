@@ -81,17 +81,16 @@ model Verification {
 }
 
 model Novel {
-  id          String    @id @default(cuid())
-  title       String
-  slug        String    @unique
-  description String?
-  authorId    String
-  author      User      @relation(fields: [authorId], references: [id])
-  chapters    Chapter[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  genres      Genre?    @relation(fields: [genreId], references: [id])
-  genreId     String?
+  id        String    @id @default(cuid())
+  title     String
+  slug      String    @unique
+  synopsis  String?
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  chapters  Chapter[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  genres    Genre[]
 }
 
 model Genre {

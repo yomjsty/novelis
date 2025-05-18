@@ -35,7 +35,7 @@ export default function GenreForm() {
             dialogCloseRef.current?.click()
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Gagal membuat genre.")
+            toast.error(error.message || "Failed to create genre.")
         },
     })
 
@@ -87,7 +87,7 @@ export default function GenreForm() {
                                     <Loader2 className="w-4 h-4 animate-spin" />
                                     Creating...
                                 </>
-                            ) : 'Create Version'}
+                            ) : 'Create Genre'}
                         </Button>
                     </DialogFooter>
                 </form>

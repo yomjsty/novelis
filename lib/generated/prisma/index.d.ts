@@ -1465,10 +1465,12 @@ export namespace Prisma {
 
   export type NovelCountOutputType = {
     chapters: number
+    genres: number
   }
 
   export type NovelCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chapters?: boolean | NovelCountOutputTypeCountChaptersArgs
+    genres?: boolean | NovelCountOutputTypeCountGenresArgs
   }
 
   // Custom InputTypes
@@ -1487,6 +1489,13 @@ export namespace Prisma {
    */
   export type NovelCountOutputTypeCountChaptersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChapterWhereInput
+  }
+
+  /**
+   * NovelCountOutputType without action
+   */
+  export type NovelCountOutputTypeCountGenresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GenreWhereInput
   }
 
 
@@ -6070,33 +6079,30 @@ export namespace Prisma {
     id: string | null
     title: string | null
     slug: string | null
-    description: string | null
+    synopsis: string | null
     authorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    genreId: string | null
   }
 
   export type NovelMaxAggregateOutputType = {
     id: string | null
     title: string | null
     slug: string | null
-    description: string | null
+    synopsis: string | null
     authorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    genreId: string | null
   }
 
   export type NovelCountAggregateOutputType = {
     id: number
     title: number
     slug: number
-    description: number
+    synopsis: number
     authorId: number
     createdAt: number
     updatedAt: number
-    genreId: number
     _all: number
   }
 
@@ -6105,33 +6111,30 @@ export namespace Prisma {
     id?: true
     title?: true
     slug?: true
-    description?: true
+    synopsis?: true
     authorId?: true
     createdAt?: true
     updatedAt?: true
-    genreId?: true
   }
 
   export type NovelMaxAggregateInputType = {
     id?: true
     title?: true
     slug?: true
-    description?: true
+    synopsis?: true
     authorId?: true
     createdAt?: true
     updatedAt?: true
-    genreId?: true
   }
 
   export type NovelCountAggregateInputType = {
     id?: true
     title?: true
     slug?: true
-    description?: true
+    synopsis?: true
     authorId?: true
     createdAt?: true
     updatedAt?: true
-    genreId?: true
     _all?: true
   }
 
@@ -6211,11 +6214,10 @@ export namespace Prisma {
     id: string
     title: string
     slug: string
-    description: string | null
+    synopsis: string | null
     authorId: string
     createdAt: Date
     updatedAt: Date
-    genreId: string | null
     _count: NovelCountAggregateOutputType | null
     _min: NovelMinAggregateOutputType | null
     _max: NovelMaxAggregateOutputType | null
@@ -6239,11 +6241,10 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     slug?: boolean
-    description?: boolean
+    synopsis?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    genreId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
     chapters?: boolean | Novel$chaptersArgs<ExtArgs>
     genres?: boolean | Novel$genresArgs<ExtArgs>
@@ -6254,40 +6255,35 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     slug?: boolean
-    description?: boolean
+    synopsis?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    genreId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
-    genres?: boolean | Novel$genresArgs<ExtArgs>
   }, ExtArgs["result"]["novel"]>
 
   export type NovelSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     slug?: boolean
-    description?: boolean
+    synopsis?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    genreId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
-    genres?: boolean | Novel$genresArgs<ExtArgs>
   }, ExtArgs["result"]["novel"]>
 
   export type NovelSelectScalar = {
     id?: boolean
     title?: boolean
     slug?: boolean
-    description?: boolean
+    synopsis?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    genreId?: boolean
   }
 
-  export type NovelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "authorId" | "createdAt" | "updatedAt" | "genreId", ExtArgs["result"]["novel"]>
+  export type NovelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "synopsis" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["novel"]>
   export type NovelInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     chapters?: boolean | Novel$chaptersArgs<ExtArgs>
@@ -6296,11 +6292,9 @@ export namespace Prisma {
   }
   export type NovelIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
-    genres?: boolean | Novel$genresArgs<ExtArgs>
   }
   export type NovelIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
-    genres?: boolean | Novel$genresArgs<ExtArgs>
   }
 
   export type $NovelPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6308,17 +6302,16 @@ export namespace Prisma {
     objects: {
       author: Prisma.$UserPayload<ExtArgs>
       chapters: Prisma.$ChapterPayload<ExtArgs>[]
-      genres: Prisma.$GenrePayload<ExtArgs> | null
+      genres: Prisma.$GenrePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       slug: string
-      description: string | null
+      synopsis: string | null
       authorId: string
       createdAt: Date
       updatedAt: Date
-      genreId: string | null
     }, ExtArgs["result"]["novel"]>
     composites: {}
   }
@@ -6715,7 +6708,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     chapters<T extends Novel$chaptersArgs<ExtArgs> = {}>(args?: Subset<T, Novel$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    genres<T extends Novel$genresArgs<ExtArgs> = {}>(args?: Subset<T, Novel$genresArgs<ExtArgs>>): Prisma__GenreClient<$Result.GetResult<Prisma.$GenrePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    genres<T extends Novel$genresArgs<ExtArgs> = {}>(args?: Subset<T, Novel$genresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6748,11 +6741,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Novel", 'String'>
     readonly title: FieldRef<"Novel", 'String'>
     readonly slug: FieldRef<"Novel", 'String'>
-    readonly description: FieldRef<"Novel", 'String'>
+    readonly synopsis: FieldRef<"Novel", 'String'>
     readonly authorId: FieldRef<"Novel", 'String'>
     readonly createdAt: FieldRef<"Novel", 'DateTime'>
     readonly updatedAt: FieldRef<"Novel", 'DateTime'>
-    readonly genreId: FieldRef<"Novel", 'String'>
   }
     
 
@@ -7189,6 +7181,11 @@ export namespace Prisma {
      */
     include?: GenreInclude<ExtArgs> | null
     where?: GenreWhereInput
+    orderBy?: GenreOrderByWithRelationInput | GenreOrderByWithRelationInput[]
+    cursor?: GenreWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GenreScalarFieldEnum | GenreScalarFieldEnum[]
   }
 
   /**
@@ -9454,11 +9451,10 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     slug: 'slug',
-    description: 'description',
+    synopsis: 'synopsis',
     authorId: 'authorId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    genreId: 'genreId'
+    updatedAt: 'updatedAt'
   };
 
   export type NovelScalarFieldEnum = (typeof NovelScalarFieldEnum)[keyof typeof NovelScalarFieldEnum]
@@ -9913,28 +9909,26 @@ export namespace Prisma {
     id?: StringFilter<"Novel"> | string
     title?: StringFilter<"Novel"> | string
     slug?: StringFilter<"Novel"> | string
-    description?: StringNullableFilter<"Novel"> | string | null
+    synopsis?: StringNullableFilter<"Novel"> | string | null
     authorId?: StringFilter<"Novel"> | string
     createdAt?: DateTimeFilter<"Novel"> | Date | string
     updatedAt?: DateTimeFilter<"Novel"> | Date | string
-    genreId?: StringNullableFilter<"Novel"> | string | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     chapters?: ChapterListRelationFilter
-    genres?: XOR<GenreNullableScalarRelationFilter, GenreWhereInput> | null
+    genres?: GenreListRelationFilter
   }
 
   export type NovelOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
     slug?: SortOrder
-    description?: SortOrderInput | SortOrder
+    synopsis?: SortOrderInput | SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    genreId?: SortOrderInput | SortOrder
     author?: UserOrderByWithRelationInput
     chapters?: ChapterOrderByRelationAggregateInput
-    genres?: GenreOrderByWithRelationInput
+    genres?: GenreOrderByRelationAggregateInput
   }
 
   export type NovelWhereUniqueInput = Prisma.AtLeast<{
@@ -9944,25 +9938,23 @@ export namespace Prisma {
     OR?: NovelWhereInput[]
     NOT?: NovelWhereInput | NovelWhereInput[]
     title?: StringFilter<"Novel"> | string
-    description?: StringNullableFilter<"Novel"> | string | null
+    synopsis?: StringNullableFilter<"Novel"> | string | null
     authorId?: StringFilter<"Novel"> | string
     createdAt?: DateTimeFilter<"Novel"> | Date | string
     updatedAt?: DateTimeFilter<"Novel"> | Date | string
-    genreId?: StringNullableFilter<"Novel"> | string | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     chapters?: ChapterListRelationFilter
-    genres?: XOR<GenreNullableScalarRelationFilter, GenreWhereInput> | null
+    genres?: GenreListRelationFilter
   }, "id" | "slug">
 
   export type NovelOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     slug?: SortOrder
-    description?: SortOrderInput | SortOrder
+    synopsis?: SortOrderInput | SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    genreId?: SortOrderInput | SortOrder
     _count?: NovelCountOrderByAggregateInput
     _max?: NovelMaxOrderByAggregateInput
     _min?: NovelMinOrderByAggregateInput
@@ -9975,11 +9967,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Novel"> | string
     title?: StringWithAggregatesFilter<"Novel"> | string
     slug?: StringWithAggregatesFilter<"Novel"> | string
-    description?: StringNullableWithAggregatesFilter<"Novel"> | string | null
+    synopsis?: StringNullableWithAggregatesFilter<"Novel"> | string | null
     authorId?: StringWithAggregatesFilter<"Novel"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Novel"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Novel"> | Date | string
-    genreId?: StringNullableWithAggregatesFilter<"Novel"> | string | null
   }
 
   export type GenreWhereInput = {
@@ -10472,66 +10463,65 @@ export namespace Prisma {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutNovelInput
     chapters?: ChapterCreateNestedManyWithoutNovelInput
-    genres?: GenreCreateNestedOneWithoutNovelsInput
+    genres?: GenreCreateNestedManyWithoutNovelsInput
   }
 
   export type NovelUncheckedCreateInput = {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    genreId?: string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutNovelInput
+    genres?: GenreUncheckedCreateNestedManyWithoutNovelsInput
   }
 
   export type NovelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutNovelNestedInput
     chapters?: ChapterUpdateManyWithoutNovelNestedInput
-    genres?: GenreUpdateOneWithoutNovelsNestedInput
+    genres?: GenreUpdateManyWithoutNovelsNestedInput
   }
 
   export type NovelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    genreId?: NullableStringFieldUpdateOperationsInput | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutNovelNestedInput
+    genres?: GenreUncheckedUpdateManyWithoutNovelsNestedInput
   }
 
   export type NovelCreateManyInput = {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    genreId?: string | null
   }
 
   export type NovelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10540,11 +10530,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    genreId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type GenreCreateInput = {
@@ -11041,12 +11030,17 @@ export namespace Prisma {
     none?: ChapterWhereInput
   }
 
-  export type GenreNullableScalarRelationFilter = {
-    is?: GenreWhereInput | null
-    isNot?: GenreWhereInput | null
+  export type GenreListRelationFilter = {
+    every?: GenreWhereInput
+    some?: GenreWhereInput
+    none?: GenreWhereInput
   }
 
   export type ChapterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GenreOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11054,33 +11048,30 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     slug?: SortOrder
-    description?: SortOrder
+    synopsis?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    genreId?: SortOrder
   }
 
   export type NovelMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     slug?: SortOrder
-    description?: SortOrder
+    synopsis?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    genreId?: SortOrder
   }
 
   export type NovelMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     slug?: SortOrder
-    description?: SortOrder
+    synopsis?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    genreId?: SortOrder
   }
 
   export type GenreCountOrderByAggregateInput = {
@@ -11343,10 +11334,10 @@ export namespace Prisma {
     connect?: ChapterWhereUniqueInput | ChapterWhereUniqueInput[]
   }
 
-  export type GenreCreateNestedOneWithoutNovelsInput = {
-    create?: XOR<GenreCreateWithoutNovelsInput, GenreUncheckedCreateWithoutNovelsInput>
-    connectOrCreate?: GenreCreateOrConnectWithoutNovelsInput
-    connect?: GenreWhereUniqueInput
+  export type GenreCreateNestedManyWithoutNovelsInput = {
+    create?: XOR<GenreCreateWithoutNovelsInput, GenreUncheckedCreateWithoutNovelsInput> | GenreCreateWithoutNovelsInput[] | GenreUncheckedCreateWithoutNovelsInput[]
+    connectOrCreate?: GenreCreateOrConnectWithoutNovelsInput | GenreCreateOrConnectWithoutNovelsInput[]
+    connect?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
   }
 
   export type ChapterUncheckedCreateNestedManyWithoutNovelInput = {
@@ -11354,6 +11345,12 @@ export namespace Prisma {
     connectOrCreate?: ChapterCreateOrConnectWithoutNovelInput | ChapterCreateOrConnectWithoutNovelInput[]
     createMany?: ChapterCreateManyNovelInputEnvelope
     connect?: ChapterWhereUniqueInput | ChapterWhereUniqueInput[]
+  }
+
+  export type GenreUncheckedCreateNestedManyWithoutNovelsInput = {
+    create?: XOR<GenreCreateWithoutNovelsInput, GenreUncheckedCreateWithoutNovelsInput> | GenreCreateWithoutNovelsInput[] | GenreUncheckedCreateWithoutNovelsInput[]
+    connectOrCreate?: GenreCreateOrConnectWithoutNovelsInput | GenreCreateOrConnectWithoutNovelsInput[]
+    connect?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutNovelNestedInput = {
@@ -11378,14 +11375,17 @@ export namespace Prisma {
     deleteMany?: ChapterScalarWhereInput | ChapterScalarWhereInput[]
   }
 
-  export type GenreUpdateOneWithoutNovelsNestedInput = {
-    create?: XOR<GenreCreateWithoutNovelsInput, GenreUncheckedCreateWithoutNovelsInput>
-    connectOrCreate?: GenreCreateOrConnectWithoutNovelsInput
-    upsert?: GenreUpsertWithoutNovelsInput
-    disconnect?: GenreWhereInput | boolean
-    delete?: GenreWhereInput | boolean
-    connect?: GenreWhereUniqueInput
-    update?: XOR<XOR<GenreUpdateToOneWithWhereWithoutNovelsInput, GenreUpdateWithoutNovelsInput>, GenreUncheckedUpdateWithoutNovelsInput>
+  export type GenreUpdateManyWithoutNovelsNestedInput = {
+    create?: XOR<GenreCreateWithoutNovelsInput, GenreUncheckedCreateWithoutNovelsInput> | GenreCreateWithoutNovelsInput[] | GenreUncheckedCreateWithoutNovelsInput[]
+    connectOrCreate?: GenreCreateOrConnectWithoutNovelsInput | GenreCreateOrConnectWithoutNovelsInput[]
+    upsert?: GenreUpsertWithWhereUniqueWithoutNovelsInput | GenreUpsertWithWhereUniqueWithoutNovelsInput[]
+    set?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    disconnect?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    delete?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    connect?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    update?: GenreUpdateWithWhereUniqueWithoutNovelsInput | GenreUpdateWithWhereUniqueWithoutNovelsInput[]
+    updateMany?: GenreUpdateManyWithWhereWithoutNovelsInput | GenreUpdateManyWithWhereWithoutNovelsInput[]
+    deleteMany?: GenreScalarWhereInput | GenreScalarWhereInput[]
   }
 
   export type ChapterUncheckedUpdateManyWithoutNovelNestedInput = {
@@ -11402,17 +11402,28 @@ export namespace Prisma {
     deleteMany?: ChapterScalarWhereInput | ChapterScalarWhereInput[]
   }
 
+  export type GenreUncheckedUpdateManyWithoutNovelsNestedInput = {
+    create?: XOR<GenreCreateWithoutNovelsInput, GenreUncheckedCreateWithoutNovelsInput> | GenreCreateWithoutNovelsInput[] | GenreUncheckedCreateWithoutNovelsInput[]
+    connectOrCreate?: GenreCreateOrConnectWithoutNovelsInput | GenreCreateOrConnectWithoutNovelsInput[]
+    upsert?: GenreUpsertWithWhereUniqueWithoutNovelsInput | GenreUpsertWithWhereUniqueWithoutNovelsInput[]
+    set?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    disconnect?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    delete?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    connect?: GenreWhereUniqueInput | GenreWhereUniqueInput[]
+    update?: GenreUpdateWithWhereUniqueWithoutNovelsInput | GenreUpdateWithWhereUniqueWithoutNovelsInput[]
+    updateMany?: GenreUpdateManyWithWhereWithoutNovelsInput | GenreUpdateManyWithWhereWithoutNovelsInput[]
+    deleteMany?: GenreScalarWhereInput | GenreScalarWhereInput[]
+  }
+
   export type NovelCreateNestedManyWithoutGenresInput = {
     create?: XOR<NovelCreateWithoutGenresInput, NovelUncheckedCreateWithoutGenresInput> | NovelCreateWithoutGenresInput[] | NovelUncheckedCreateWithoutGenresInput[]
     connectOrCreate?: NovelCreateOrConnectWithoutGenresInput | NovelCreateOrConnectWithoutGenresInput[]
-    createMany?: NovelCreateManyGenresInputEnvelope
     connect?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
   }
 
   export type NovelUncheckedCreateNestedManyWithoutGenresInput = {
     create?: XOR<NovelCreateWithoutGenresInput, NovelUncheckedCreateWithoutGenresInput> | NovelCreateWithoutGenresInput[] | NovelUncheckedCreateWithoutGenresInput[]
     connectOrCreate?: NovelCreateOrConnectWithoutGenresInput | NovelCreateOrConnectWithoutGenresInput[]
-    createMany?: NovelCreateManyGenresInputEnvelope
     connect?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
   }
 
@@ -11420,7 +11431,6 @@ export namespace Prisma {
     create?: XOR<NovelCreateWithoutGenresInput, NovelUncheckedCreateWithoutGenresInput> | NovelCreateWithoutGenresInput[] | NovelUncheckedCreateWithoutGenresInput[]
     connectOrCreate?: NovelCreateOrConnectWithoutGenresInput | NovelCreateOrConnectWithoutGenresInput[]
     upsert?: NovelUpsertWithWhereUniqueWithoutGenresInput | NovelUpsertWithWhereUniqueWithoutGenresInput[]
-    createMany?: NovelCreateManyGenresInputEnvelope
     set?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
     disconnect?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
     delete?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
@@ -11434,7 +11444,6 @@ export namespace Prisma {
     create?: XOR<NovelCreateWithoutGenresInput, NovelUncheckedCreateWithoutGenresInput> | NovelCreateWithoutGenresInput[] | NovelUncheckedCreateWithoutGenresInput[]
     connectOrCreate?: NovelCreateOrConnectWithoutGenresInput | NovelCreateOrConnectWithoutGenresInput[]
     upsert?: NovelUpsertWithWhereUniqueWithoutGenresInput | NovelUpsertWithWhereUniqueWithoutGenresInput[]
-    createMany?: NovelCreateManyGenresInputEnvelope
     set?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
     disconnect?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
     delete?: NovelWhereUniqueInput | NovelWhereUniqueInput[]
@@ -11721,22 +11730,22 @@ export namespace Prisma {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapters?: ChapterCreateNestedManyWithoutNovelInput
-    genres?: GenreCreateNestedOneWithoutNovelsInput
+    genres?: GenreCreateNestedManyWithoutNovelsInput
   }
 
   export type NovelUncheckedCreateWithoutAuthorInput = {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    genreId?: string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutNovelInput
+    genres?: GenreUncheckedCreateNestedManyWithoutNovelsInput
   }
 
   export type NovelCreateOrConnectWithoutAuthorInput = {
@@ -11838,11 +11847,10 @@ export namespace Prisma {
     id?: StringFilter<"Novel"> | string
     title?: StringFilter<"Novel"> | string
     slug?: StringFilter<"Novel"> | string
-    description?: StringNullableFilter<"Novel"> | string | null
+    synopsis?: StringNullableFilter<"Novel"> | string | null
     authorId?: StringFilter<"Novel"> | string
     createdAt?: DateTimeFilter<"Novel"> | Date | string
     updatedAt?: DateTimeFilter<"Novel"> | Date | string
-    genreId?: StringNullableFilter<"Novel"> | string | null
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -12170,36 +12178,37 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Chapter"> | Date | string
   }
 
-  export type GenreUpsertWithoutNovelsInput = {
+  export type GenreUpsertWithWhereUniqueWithoutNovelsInput = {
+    where: GenreWhereUniqueInput
     update: XOR<GenreUpdateWithoutNovelsInput, GenreUncheckedUpdateWithoutNovelsInput>
     create: XOR<GenreCreateWithoutNovelsInput, GenreUncheckedCreateWithoutNovelsInput>
-    where?: GenreWhereInput
   }
 
-  export type GenreUpdateToOneWithWhereWithoutNovelsInput = {
-    where?: GenreWhereInput
+  export type GenreUpdateWithWhereUniqueWithoutNovelsInput = {
+    where: GenreWhereUniqueInput
     data: XOR<GenreUpdateWithoutNovelsInput, GenreUncheckedUpdateWithoutNovelsInput>
   }
 
-  export type GenreUpdateWithoutNovelsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type GenreUpdateManyWithWhereWithoutNovelsInput = {
+    where: GenreScalarWhereInput
+    data: XOR<GenreUpdateManyMutationInput, GenreUncheckedUpdateManyWithoutNovelsInput>
   }
 
-  export type GenreUncheckedUpdateWithoutNovelsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type GenreScalarWhereInput = {
+    AND?: GenreScalarWhereInput | GenreScalarWhereInput[]
+    OR?: GenreScalarWhereInput[]
+    NOT?: GenreScalarWhereInput | GenreScalarWhereInput[]
+    id?: StringFilter<"Genre"> | string
+    name?: StringFilter<"Genre"> | string
+    createdAt?: DateTimeFilter<"Genre"> | Date | string
+    updatedAt?: DateTimeFilter<"Genre"> | Date | string
   }
 
   export type NovelCreateWithoutGenresInput = {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutNovelInput
@@ -12210,7 +12219,7 @@ export namespace Prisma {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12220,11 +12229,6 @@ export namespace Prisma {
   export type NovelCreateOrConnectWithoutGenresInput = {
     where: NovelWhereUniqueInput
     create: XOR<NovelCreateWithoutGenresInput, NovelUncheckedCreateWithoutGenresInput>
-  }
-
-  export type NovelCreateManyGenresInputEnvelope = {
-    data: NovelCreateManyGenresInput | NovelCreateManyGenresInput[]
-    skipDuplicates?: boolean
   }
 
   export type NovelUpsertWithWhereUniqueWithoutGenresInput = {
@@ -12247,22 +12251,22 @@ export namespace Prisma {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutNovelInput
-    genres?: GenreCreateNestedOneWithoutNovelsInput
+    genres?: GenreCreateNestedManyWithoutNovelsInput
   }
 
   export type NovelUncheckedCreateWithoutChaptersInput = {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    genreId?: string | null
+    genres?: GenreUncheckedCreateNestedManyWithoutNovelsInput
   }
 
   export type NovelCreateOrConnectWithoutChaptersInput = {
@@ -12285,22 +12289,22 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutNovelNestedInput
-    genres?: GenreUpdateOneWithoutNovelsNestedInput
+    genres?: GenreUpdateManyWithoutNovelsNestedInput
   }
 
   export type NovelUncheckedUpdateWithoutChaptersInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    genreId?: NullableStringFieldUpdateOperationsInput | string | null
+    genres?: GenreUncheckedUpdateManyWithoutNovelsNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -12333,10 +12337,9 @@ export namespace Prisma {
     id?: string
     title: string
     slug: string
-    description?: string | null
+    synopsis?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    genreId?: string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -12421,32 +12424,31 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapters?: ChapterUpdateManyWithoutNovelNestedInput
-    genres?: GenreUpdateOneWithoutNovelsNestedInput
+    genres?: GenreUpdateManyWithoutNovelsNestedInput
   }
 
   export type NovelUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    genreId?: NullableStringFieldUpdateOperationsInput | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutNovelNestedInput
+    genres?: GenreUncheckedUpdateManyWithoutNovelsNestedInput
   }
 
   export type NovelUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    genreId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChapterCreateManyNovelInput = {
@@ -12481,21 +12483,32 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NovelCreateManyGenresInput = {
-    id?: string
-    title: string
-    slug: string
-    description?: string | null
-    authorId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type GenreUpdateWithoutNovelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GenreUncheckedUpdateWithoutNovelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GenreUncheckedUpdateManyWithoutNovelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NovelUpdateWithoutGenresInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutNovelNestedInput
@@ -12506,7 +12519,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12517,7 +12530,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    synopsis?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
