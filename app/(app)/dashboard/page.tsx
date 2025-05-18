@@ -1,7 +1,8 @@
 import BuyButton from "@/components/buy-button";
-import { authClient } from "@/lib/auth-client";
+import { Button } from "@/components/ui/button";
 import db from "@/lib/db"
 import { getCurrentUser } from "@/lib/get-current-user"
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
@@ -19,16 +20,16 @@ export default async function DashboardPage() {
         }
     })
 
-    const { data: customerState } = await authClient.customer.state();
-
-    console.log("🔍 Customer State:", customerState);
-
     return (
         <div className="flex flex-col items-center justify-center h-screen gap-4">
             <h1 className="text-2xl font-bold">Dashboard</h1>
             <p>Coins: {userCoins?.coins}</p>
             <BuyButton />
-            <p>Customer State: {JSON.stringify(customerState, null, 2)}</p>
+            <Link href="/dashboard/genres">
+                <Button>
+                    Go to genre page
+                </Button>
+            </Link>
         </div>
     )
 }

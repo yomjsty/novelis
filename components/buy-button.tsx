@@ -17,7 +17,7 @@ export default function BuyButton() {
     }
 
     return (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-2 flex-wrap">
             <Button onClick={() => handleBuyCoins("d2f14d56-eb91-4466-ab2e-501a9755ae7f", "10-coins")}>
                 <Coins className="w-4 h-4 mr-2" />
                 Buy 10 Coins
