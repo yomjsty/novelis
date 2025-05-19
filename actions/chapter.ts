@@ -54,6 +54,13 @@ export async function getAuthorChapters() {
                 authorId: user.id
             }
         },
+        include: {
+            novel: {
+                select: {
+                    title: true
+                }
+            }
+        },
         orderBy: {
             title: "desc"
         }

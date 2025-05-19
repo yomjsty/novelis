@@ -8341,6 +8341,7 @@ export namespace Prisma {
     isFree: boolean | null
     price: number | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ChapterMaxAggregateOutputType = {
@@ -8352,6 +8353,7 @@ export namespace Prisma {
     isFree: boolean | null
     price: number | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ChapterCountAggregateOutputType = {
@@ -8363,6 +8365,7 @@ export namespace Prisma {
     isFree: number
     price: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -8384,6 +8387,7 @@ export namespace Prisma {
     isFree?: true
     price?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ChapterMaxAggregateInputType = {
@@ -8395,6 +8399,7 @@ export namespace Prisma {
     isFree?: true
     price?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ChapterCountAggregateInputType = {
@@ -8406,6 +8411,7 @@ export namespace Prisma {
     isFree?: true
     price?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -8504,6 +8510,7 @@ export namespace Prisma {
     isFree: boolean
     price: number | null
     createdAt: Date
+    updatedAt: Date
     _count: ChapterCountAggregateOutputType | null
     _avg: ChapterAvgAggregateOutputType | null
     _sum: ChapterSumAggregateOutputType | null
@@ -8534,6 +8541,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     novel?: boolean | NovelDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chapter"]>
 
@@ -8546,6 +8554,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     novel?: boolean | NovelDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chapter"]>
 
@@ -8558,6 +8567,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     novel?: boolean | NovelDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chapter"]>
 
@@ -8570,9 +8580,10 @@ export namespace Prisma {
     isFree?: boolean
     price?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ChapterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "novelId" | "isFree" | "price" | "createdAt", ExtArgs["result"]["chapter"]>
+  export type ChapterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "novelId" | "isFree" | "price" | "createdAt" | "updatedAt", ExtArgs["result"]["chapter"]>
   export type ChapterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     novel?: boolean | NovelDefaultArgs<ExtArgs>
   }
@@ -8597,6 +8608,7 @@ export namespace Prisma {
       isFree: boolean
       price: number | null
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["chapter"]>
     composites: {}
   }
@@ -9029,6 +9041,7 @@ export namespace Prisma {
     readonly isFree: FieldRef<"Chapter", 'Boolean'>
     readonly price: FieldRef<"Chapter", 'Int'>
     readonly createdAt: FieldRef<"Chapter", 'DateTime'>
+    readonly updatedAt: FieldRef<"Chapter", 'DateTime'>
   }
     
 
@@ -9556,7 +9569,8 @@ export namespace Prisma {
     novelId: 'novelId',
     isFree: 'isFree',
     price: 'price',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ChapterScalarFieldEnum = (typeof ChapterScalarFieldEnum)[keyof typeof ChapterScalarFieldEnum]
@@ -10135,6 +10149,7 @@ export namespace Prisma {
     isFree?: BoolFilter<"Chapter"> | boolean
     price?: IntNullableFilter<"Chapter"> | number | null
     createdAt?: DateTimeFilter<"Chapter"> | Date | string
+    updatedAt?: DateTimeFilter<"Chapter"> | Date | string
     novel?: XOR<NovelScalarRelationFilter, NovelWhereInput>
   }
 
@@ -10147,6 +10162,7 @@ export namespace Prisma {
     isFree?: SortOrder
     price?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     novel?: NovelOrderByWithRelationInput
   }
 
@@ -10162,6 +10178,7 @@ export namespace Prisma {
     isFree?: BoolFilter<"Chapter"> | boolean
     price?: IntNullableFilter<"Chapter"> | number | null
     createdAt?: DateTimeFilter<"Chapter"> | Date | string
+    updatedAt?: DateTimeFilter<"Chapter"> | Date | string
     novel?: XOR<NovelScalarRelationFilter, NovelWhereInput>
   }, "id">
 
@@ -10174,6 +10191,7 @@ export namespace Prisma {
     isFree?: SortOrder
     price?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ChapterCountOrderByAggregateInput
     _avg?: ChapterAvgOrderByAggregateInput
     _max?: ChapterMaxOrderByAggregateInput
@@ -10193,6 +10211,7 @@ export namespace Prisma {
     isFree?: BoolWithAggregatesFilter<"Chapter"> | boolean
     price?: IntNullableWithAggregatesFilter<"Chapter"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Chapter"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Chapter"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -10735,6 +10754,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     novel: NovelCreateNestedOneWithoutChaptersInput
   }
 
@@ -10747,6 +10767,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChapterUpdateInput = {
@@ -10757,6 +10778,7 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     price?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     novel?: NovelUpdateOneRequiredWithoutChaptersNestedInput
   }
 
@@ -10769,6 +10791,7 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     price?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChapterCreateManyInput = {
@@ -10780,6 +10803,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChapterUpdateManyMutationInput = {
@@ -10790,6 +10814,7 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     price?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChapterUncheckedUpdateManyInput = {
@@ -10801,6 +10826,7 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     price?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -11290,6 +11316,7 @@ export namespace Prisma {
     isFree?: SortOrder
     price?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ChapterAvgOrderByAggregateInput = {
@@ -11305,6 +11332,7 @@ export namespace Prisma {
     isFree?: SortOrder
     price?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ChapterMinOrderByAggregateInput = {
@@ -11316,6 +11344,7 @@ export namespace Prisma {
     isFree?: SortOrder
     price?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ChapterSumOrderByAggregateInput = {
@@ -12327,6 +12356,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChapterUncheckedCreateWithoutNovelInput = {
@@ -12337,6 +12367,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChapterCreateOrConnectWithoutNovelInput = {
@@ -12441,6 +12472,7 @@ export namespace Prisma {
     isFree?: BoolFilter<"Chapter"> | boolean
     price?: IntNullableFilter<"Chapter"> | number | null
     createdAt?: DateTimeFilter<"Chapter"> | Date | string
+    updatedAt?: DateTimeFilter<"Chapter"> | Date | string
   }
 
   export type GenreUpsertWithWhereUniqueWithoutNovelsInput = {
@@ -12764,6 +12796,7 @@ export namespace Prisma {
     isFree?: boolean
     price?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChapterUpdateWithoutNovelInput = {
@@ -12774,6 +12807,7 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     price?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChapterUncheckedUpdateWithoutNovelInput = {
@@ -12784,6 +12818,7 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     price?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChapterUncheckedUpdateManyWithoutNovelInput = {
@@ -12794,6 +12829,7 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     price?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GenreUpdateWithoutNovelsInput = {
