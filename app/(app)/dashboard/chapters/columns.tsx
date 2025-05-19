@@ -61,7 +61,7 @@ function ActionCell({ chapter }: { chapter: Chapter }) {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <Link href={`/dashboard/chapters/${chapter.id}`}>
-                        <DropdownMenuItem className="cursor-pointer">View Chapter</DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer">Edit Chapter</DropdownMenuItem>
                     </Link>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

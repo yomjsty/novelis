@@ -98,63 +98,69 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
                     required
                 />
             </div>
-            <div className="flex flex-col gap-2">
-                <Label htmlFor="status">Status</Label>
-                <SelectNative id="status" value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option value="ongoing">Ongoing</option>
-                    <option value="completed">Completed</option>
-                    <option value="hiatus">Hiatus</option>
-                    <option value="cancelled">Cancelled</option>
-                </SelectNative>
-            </div>
-            <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
-                    Genres
-                </Label>
-                <GenreMultiselect genres={genres} setGenres={setGenres} />
-            </div>
-            <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
-                    Tags
-                </Label>
-                <TagsInput tags={tags} setTags={setTags} />
-                <p
-                    className="text-muted-foreground text-xs"
-                    role="region"
-                    aria-live="polite"
-                >
-                    Enter or comma-separate tags to add
-                </p>
-            </div>
-            <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
-                    Featured Image
-                </Label>
-                <div className="space-y-4">
-                    {featuredImage && (
-                        <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                            <Image
-                                src={featuredImage}
-                                alt="Featured Image"
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            <div className="grid gap-4 md:grid-cols-3">
+                <div className="space-y-4 md:col-span-2">
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="status">Status</Label>
+                        <SelectNative id="status" value={status} onChange={(e) => setStatus(e.target.value)}>
+                            <option value="ongoing">Ongoing</option>
+                            <option value="completed">Completed</option>
+                            <option value="hiatus">Hiatus</option>
+                            <option value="cancelled">Cancelled</option>
+                        </SelectNative>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="name">
+                            Genres
+                        </Label>
+                        <GenreMultiselect genres={genres} setGenres={setGenres} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="name">
+                            Tags
+                        </Label>
+                        <TagsInput tags={tags} setTags={setTags} />
+                        <p
+                            className="text-muted-foreground text-xs"
+                            role="region"
+                            aria-live="polite"
+                        >
+                            Enter or comma-separate tags to add
+                        </p>
+                    </div>
+                </div>
+                <div className="">
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="name">
+                            Featured Image
+                        </Label>
+                        <div className="space-y-4">
+                            {featuredImage && (
+                                <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                                    <Image
+                                        src={featuredImage}
+                                        alt="Featured Image"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                </div>
+                            )}
+
+                            <UploadDropzone
+                                endpoint="imageUploader"
+                                onClientUploadComplete={(res) => {
+                                    if (res && res[0]) {
+                                        setFeaturedImage(res[0].ufsUrl)
+                                        toast.success("Image uploaded successfully!")
+                                    }
+                                }}
+                                onUploadError={(error: Error) => {
+                                    toast.error(`Upload failed: ${error.message}`)
+                                }}
                             />
                         </div>
-                    )}
-
-                    <UploadDropzone
-                        endpoint="imageUploader"
-                        onClientUploadComplete={(res) => {
-                            if (res && res[0]) {
-                                setFeaturedImage(res[0].ufsUrl)
-                                toast.success("Image uploaded successfully!")
-                            }
-                        }}
-                        onUploadError={(error: Error) => {
-                            toast.error(`Upload failed: ${error.message}`)
-                        }}
-                    />
+                    </div>
                 </div>
             </div>
 

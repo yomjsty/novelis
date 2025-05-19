@@ -59,7 +59,7 @@ function ActionCell({ novel }: { novel: Novel }) {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <Link href={`/dashboard/novels/${novel.id}`}>
-                        <DropdownMenuItem className="cursor-pointer">View Novel</DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer">Edit Novel</DropdownMenuItem>
                     </Link>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

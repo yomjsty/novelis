@@ -1,6 +1,7 @@
 import { getNovelById } from "@/actions/novel";
 import EditNovelForm from "./edit-novel-form";
 import { notFound } from "next/navigation";
+import { Header } from "@/app/(app)/header";
 
 export default async function EditNovelPage({ params }: { params: Promise<{ novelId: string }> }) {
     const { novelId } = await params;
@@ -11,8 +12,11 @@ export default async function EditNovelPage({ params }: { params: Promise<{ nove
     }
 
     return (
-        <div>
-            <h1>{novel.title}</h1>
+        <div className="flex flex-col gap-4">
+            <Header
+                heading={`Edit ${novel.title}`}
+                text="Edit your novel to share with others."
+            />
             <EditNovelForm novel={novel} />
         </div>
     )

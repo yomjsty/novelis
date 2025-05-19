@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import NovelSelect from "./novel-select"
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
+import { InfoIcon, Loader2 } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Chapter } from "@/lib/generated/prisma"
@@ -97,52 +97,62 @@ export default function EditChapterForm({ chapter }: { chapter: Chapter }) {
                     required
                 />
             </div>
-            <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
-                    Select Novel
-                </Label>
-                <NovelSelect onChange={setNovelId} defaultValue={chapter.novelId} />
-            </div>
-            <div className="flex flex-col gap-2">
-                <div className="flex flex-col gap-2">
-                    <div className="flex gap-2">
-                        <Checkbox
-                            id="isFree"
-                            checked={isFree}
-                            onCheckedChange={(checked) => {
-                                setIsFree(checked === true);
-                                if (checked === true) {
-                                    setPrice(null);
-                                } else {
-                                    setPrice(12);
-                                }
-                            }}
-                            aria-describedby={`isFree-description`}
-                        />
-                        <div className="grid grow gap-2">
-                            <Label htmlFor="isFree">
-                                Free?{" "}
-                            </Label>
-                            <p id={`isFree-description`} className="text-muted-foreground text-xs">
-                                You need to set a price if you uncheck this
-                            </p>
+            <div className="grid gap-4 md:grid-cols-3">
+                <div className="space-y-4 md:col-span-2">
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="name">
+                            Select Novel
+                        </Label>
+                        <NovelSelect onChange={setNovelId} defaultValue={chapter.novelId} />
+                    </div>
+                </div>
+                <div className="">
+                    <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex gap-2">
+                                <Checkbox
+                                    id="isFree"
+                                    checked={isFree}
+                                    onCheckedChange={(checked) => {
+                                        setIsFree(checked === true);
+                                        if (checked === true) {
+                                            setPrice(null);
+                                        } else {
+                                            setPrice(12);
+                                        }
+                                    }}
+                                    aria-describedby={`isFree-description`}
+                                />
+                                <div className="grid grow gap-2">
+                                    <Label htmlFor="isFree" className="flex items-center gap-2">
+                                        Free?{" "}
+                                        <div className="flex items-center gap-1">
+                                            <InfoIcon className="w-3 h-3 text-muted-foreground" />
+                                            <p id={`isFree-description`} className="text-muted-foreground text-xs">
+                                                You need to set a price if you uncheck this
+                                            </p>
+                                        </div>
+                                    </Label>
+                                </div>
+                            </div>
+                            {!isFree && (
+                                <div className="flex items-center gap-2 pl-6">
+                                    <Label htmlFor="price">
+                                        Price
+                                    </Label>
+                                    <Input
+                                        id="price"
+                                        type="number"
+                                        value={price ?? ''}
+                                        onChange={(e) => setPrice(e.target.value ? Number(e.target.value) : null)}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
-                    {!isFree && (
-                        <div className="flex gap-2">
-                            <Label htmlFor="price">
-                                Price
-                            </Label>
-                            <Input
-                                id="price"
-                                type="number"
-                                value={price ?? ''}
-                                onChange={(e) => setPrice(e.target.value ? Number(e.target.value) : null)}
-                            />
-                        </div>
-                    )}
                 </div>
             </div>
+
             <Button type="submit"
                 disabled={isPending}
             >
