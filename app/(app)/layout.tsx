@@ -2,10 +2,9 @@ import { getCurrentUser } from "@/lib/get-current-user";
 import { notFound } from "next/navigation";
 import Sidebar from "./sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Search, Bell } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import LogoutButton from "@/components/logout-button";
+import { Suspense } from "react";
+import Coins from "@/components/coins";
 
 export default async function DashboardLayout({
     children,
@@ -29,24 +28,22 @@ export default async function DashboardLayout({
                         </div>
 
                         <div className="flex w-full justify-end items-center gap-3">
-                            {/* <Button
-                                variant="outline"
-                                size="icon"
-                                className="rounded-full"
-                            >
-                                <Bell className="size-5" />
-                            </Button> */}
                             <Avatar className="md:hidden">
                                 <AvatarImage src={user.image || ""} />
                                 <AvatarFallback>
                                     {user.name?.charAt(0) || "U"}
                                 </AvatarFallback>
                             </Avatar>
+                            <Suspense fallback={<div>Coins: </div>}>
+                                <Coins />
+                            </Suspense>
                             <LogoutButton />
                         </div>
                     </div>
                 </header>
-                {children}
+                <div className="p-6">
+                    {children}
+                </div>
             </div>
         </div>
     );

@@ -6082,6 +6082,7 @@ export namespace Prisma {
     synopsis: string | null
     isFeatured: boolean | null
     featuredImage: string | null
+    status: string | null
     authorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6094,6 +6095,7 @@ export namespace Prisma {
     synopsis: string | null
     isFeatured: boolean | null
     featuredImage: string | null
+    status: string | null
     authorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6107,6 +6109,7 @@ export namespace Prisma {
     isFeatured: number
     featuredImage: number
     tags: number
+    status: number
     authorId: number
     createdAt: number
     updatedAt: number
@@ -6121,6 +6124,7 @@ export namespace Prisma {
     synopsis?: true
     isFeatured?: true
     featuredImage?: true
+    status?: true
     authorId?: true
     createdAt?: true
     updatedAt?: true
@@ -6133,6 +6137,7 @@ export namespace Prisma {
     synopsis?: true
     isFeatured?: true
     featuredImage?: true
+    status?: true
     authorId?: true
     createdAt?: true
     updatedAt?: true
@@ -6146,6 +6151,7 @@ export namespace Prisma {
     isFeatured?: true
     featuredImage?: true
     tags?: true
+    status?: true
     authorId?: true
     createdAt?: true
     updatedAt?: true
@@ -6232,6 +6238,7 @@ export namespace Prisma {
     isFeatured: boolean
     featuredImage: string | null
     tags: string[]
+    status: string
     authorId: string
     createdAt: Date
     updatedAt: Date
@@ -6262,6 +6269,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: boolean
     tags?: boolean
+    status?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6279,6 +6287,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: boolean
     tags?: boolean
+    status?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6293,6 +6302,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: boolean
     tags?: boolean
+    status?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6307,12 +6317,13 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: boolean
     tags?: boolean
+    status?: boolean
     authorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NovelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "synopsis" | "isFeatured" | "featuredImage" | "tags" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["novel"]>
+  export type NovelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "synopsis" | "isFeatured" | "featuredImage" | "tags" | "status" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["novel"]>
   export type NovelInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     chapters?: boolean | Novel$chaptersArgs<ExtArgs>
@@ -6341,6 +6352,7 @@ export namespace Prisma {
       isFeatured: boolean
       featuredImage: string | null
       tags: string[]
+      status: string
       authorId: string
       createdAt: Date
       updatedAt: Date
@@ -6777,6 +6789,7 @@ export namespace Prisma {
     readonly isFeatured: FieldRef<"Novel", 'Boolean'>
     readonly featuredImage: FieldRef<"Novel", 'String'>
     readonly tags: FieldRef<"Novel", 'String[]'>
+    readonly status: FieldRef<"Novel", 'String'>
     readonly authorId: FieldRef<"Novel", 'String'>
     readonly createdAt: FieldRef<"Novel", 'DateTime'>
     readonly updatedAt: FieldRef<"Novel", 'DateTime'>
@@ -9516,6 +9529,7 @@ export namespace Prisma {
     isFeatured: 'isFeatured',
     featuredImage: 'featuredImage',
     tags: 'tags',
+    status: 'status',
     authorId: 'authorId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -9979,6 +9993,7 @@ export namespace Prisma {
     isFeatured?: BoolFilter<"Novel"> | boolean
     featuredImage?: StringNullableFilter<"Novel"> | string | null
     tags?: StringNullableListFilter<"Novel">
+    status?: StringFilter<"Novel"> | string
     authorId?: StringFilter<"Novel"> | string
     createdAt?: DateTimeFilter<"Novel"> | Date | string
     updatedAt?: DateTimeFilter<"Novel"> | Date | string
@@ -9995,6 +10010,7 @@ export namespace Prisma {
     isFeatured?: SortOrder
     featuredImage?: SortOrderInput | SortOrder
     tags?: SortOrder
+    status?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10014,6 +10030,7 @@ export namespace Prisma {
     isFeatured?: BoolFilter<"Novel"> | boolean
     featuredImage?: StringNullableFilter<"Novel"> | string | null
     tags?: StringNullableListFilter<"Novel">
+    status?: StringFilter<"Novel"> | string
     authorId?: StringFilter<"Novel"> | string
     createdAt?: DateTimeFilter<"Novel"> | Date | string
     updatedAt?: DateTimeFilter<"Novel"> | Date | string
@@ -10030,6 +10047,7 @@ export namespace Prisma {
     isFeatured?: SortOrder
     featuredImage?: SortOrderInput | SortOrder
     tags?: SortOrder
+    status?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10049,6 +10067,7 @@ export namespace Prisma {
     isFeatured?: BoolWithAggregatesFilter<"Novel"> | boolean
     featuredImage?: StringNullableWithAggregatesFilter<"Novel"> | string | null
     tags?: StringNullableListFilter<"Novel">
+    status?: StringWithAggregatesFilter<"Novel"> | string
     authorId?: StringWithAggregatesFilter<"Novel"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Novel"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Novel"> | Date | string
@@ -10133,18 +10152,18 @@ export namespace Prisma {
 
   export type ChapterWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    slug?: string
     AND?: ChapterWhereInput | ChapterWhereInput[]
     OR?: ChapterWhereInput[]
     NOT?: ChapterWhereInput | ChapterWhereInput[]
     title?: StringFilter<"Chapter"> | string
+    slug?: StringFilter<"Chapter"> | string
     content?: StringFilter<"Chapter"> | string
     novelId?: StringFilter<"Chapter"> | string
     isFree?: BoolFilter<"Chapter"> | boolean
     price?: IntNullableFilter<"Chapter"> | number | null
     createdAt?: DateTimeFilter<"Chapter"> | Date | string
     novel?: XOR<NovelScalarRelationFilter, NovelWhereInput>
-  }, "id" | "slug">
+  }, "id">
 
   export type ChapterOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10558,6 +10577,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutNovelInput
@@ -10573,6 +10593,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10588,6 +10609,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutNovelNestedInput
@@ -10603,6 +10625,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10618,6 +10641,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10631,6 +10655,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10643,6 +10668,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11186,6 +11212,7 @@ export namespace Prisma {
     isFeatured?: SortOrder
     featuredImage?: SortOrder
     tags?: SortOrder
+    status?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11198,6 +11225,7 @@ export namespace Prisma {
     synopsis?: SortOrder
     isFeatured?: SortOrder
     featuredImage?: SortOrder
+    status?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11210,6 +11238,7 @@ export namespace Prisma {
     synopsis?: SortOrder
     isFeatured?: SortOrder
     featuredImage?: SortOrder
+    status?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11952,6 +11981,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
     chapters?: ChapterCreateNestedManyWithoutNovelInput
@@ -11966,6 +11996,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
     chapters?: ChapterUncheckedCreateNestedManyWithoutNovelInput
@@ -12075,6 +12106,7 @@ export namespace Prisma {
     isFeatured?: BoolFilter<"Novel"> | boolean
     featuredImage?: StringNullableFilter<"Novel"> | string | null
     tags?: StringNullableListFilter<"Novel">
+    status?: StringFilter<"Novel"> | string
     authorId?: StringFilter<"Novel"> | string
     createdAt?: DateTimeFilter<"Novel"> | Date | string
     updatedAt?: DateTimeFilter<"Novel"> | Date | string
@@ -12445,6 +12477,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutNovelInput
@@ -12459,6 +12492,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12494,6 +12528,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutNovelInput
@@ -12508,6 +12543,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12538,6 +12574,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutNovelNestedInput
@@ -12552,6 +12589,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12592,6 +12630,7 @@ export namespace Prisma {
     isFeatured?: boolean
     featuredImage?: string | null
     tags?: NovelCreatetagsInput | string[]
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12682,6 +12721,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapters?: ChapterUpdateManyWithoutNovelNestedInput
@@ -12696,6 +12736,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapters?: ChapterUncheckedUpdateManyWithoutNovelNestedInput
@@ -12710,6 +12751,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12783,6 +12825,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutNovelNestedInput
@@ -12797,6 +12840,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12811,6 +12855,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NovelUpdatetagsInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

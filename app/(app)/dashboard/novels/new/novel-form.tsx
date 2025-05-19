@@ -15,6 +15,7 @@ import { UploadDropzone } from "@/utils/uploadthing"
 import Image from "next/image"
 import TagsInput from "./tags-input"
 import { Tag } from "emblor"
+import { SelectNative } from "@/components/ui/select-native"
 
 export default function NovelForm() {
     const [title, setTitle] = useState("")
@@ -22,6 +23,7 @@ export default function NovelForm() {
     const [synopsis, setSynopsis] = useState("")
     const [genres, setGenres] = useState<string[]>([])
     const [tags, setTags] = useState<Tag[]>([])
+    const [status, setStatus] = useState("ongoing")
     const [featuredImage, setFeaturedImage] = useState<string | null>(null)
     const queryClient = useQueryClient();
     const router = useRouter();
@@ -42,7 +44,7 @@ export default function NovelForm() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        mutate({ title, slug, synopsis, genres, tags: tags.map(tag => tag.text), featuredImage })
+        mutate({ title, slug, synopsis, genres, tags: tags.map(tag => tag.text), featuredImage, status })
     }
 
     useEffect(() => {
@@ -57,7 +59,7 @@ export default function NovelForm() {
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
+                <Label htmlFor="title">
                     Title
                 </Label>
                 <Input
@@ -79,7 +81,7 @@ export default function NovelForm() {
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
+                <Label htmlFor="synopsis">
                     Synopsis
                 </Label>
                 <Textarea
@@ -91,19 +93,35 @@ export default function NovelForm() {
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
+                <Label htmlFor="status">Status</Label>
+                <SelectNative id="status" value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                    <option value="hiatus">Hiatus</option>
+                    <option value="cancelled">Cancelled</option>
+                </SelectNative>
+            </div>
+            <div className="flex flex-col gap-2">
+                <Label htmlFor="genres">
                     Genres
                 </Label>
                 <GenreMultiselect genres={genres} setGenres={setGenres} />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
+                <Label htmlFor="tags">
                     Tags
                 </Label>
                 <TagsInput tags={tags} setTags={setTags} />
+                <p
+                    className="text-muted-foreground text-xs"
+                    role="region"
+                    aria-live="polite"
+                >
+                    Enter or comma-separate tags to add
+                </p>
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
+                <Label htmlFor="featuredImage">
                     Featured Image
                 </Label>
                 <div className="space-y-4">
@@ -112,9 +130,9 @@ export default function NovelForm() {
                             <Image
                                 src={featuredImage}
                                 alt="Featured Image"
-                                className="object-cover w-full h-full"
-                                width={100}
-                                height={100}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                         </div>
                     )}

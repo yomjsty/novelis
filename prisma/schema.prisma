@@ -88,6 +88,7 @@ model Novel {
   isFeatured    Boolean   @default(false)
   featuredImage String?
   tags          String[]
+  status        String
   authorId      String
   author        User      @relation(fields: [authorId], references: [id])
   chapters      Chapter[]
@@ -107,7 +108,7 @@ model Genre {
 model Chapter {
   id        String   @id @default(cuid())
   title     String
-  slug      String   @unique
+  slug      String
   content   String
   novelId   String
   novel     Novel    @relation(fields: [novelId], references: [id], onDelete: Cascade)

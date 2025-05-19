@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { getGenres } from "@/actions/genre"
 import MultipleSelector, { Option } from "@/components/ui/multiselect"
+import { Input } from "@/components/ui/input"
 
 interface GenreMultiselectProps {
     genres: string[]
@@ -36,7 +37,10 @@ export default function GenreMultiselect({ genres, setGenres }: GenreMultiselect
     }, [])
 
     if (loading) {
-        return <p className="text-foreground text-sm">Loading genres...</p>
+        return <Input
+            placeholder="Loading genres..."
+            className="py-[18px] placeholder:text-muted-foreground/70"
+        />
     }
 
     if (error) {

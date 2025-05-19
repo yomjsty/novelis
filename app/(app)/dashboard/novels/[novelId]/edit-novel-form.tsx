@@ -17,6 +17,7 @@ import TagsInput from "./tags-input"
 import { Tag } from "emblor"
 import { Novel, Genre } from "@/lib/generated/prisma"
 import { CreateNovel } from "@/types/types"
+import { SelectNative } from "@/components/ui/select-native"
 
 type NovelWithGenres = Novel & {
     genres: Genre[]
@@ -29,6 +30,7 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
     const [genres, setGenres] = useState<string[]>(novel.genres.map((genre) => genre.id))
     const [tags, setTags] = useState<Tag[]>(novel.tags.map(tag => ({ id: tag, text: tag })))
     const [featuredImage, setFeaturedImage] = useState(novel.featuredImage || "")
+    const [status, setStatus] = useState(novel.status)
     const queryClient = useQueryClient();
     const router = useRouter();
 
@@ -48,7 +50,7 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        mutate({ title, slug, synopsis, genres, tags: tags.map(tag => tag.text), featuredImage })
+        mutate({ title, slug, synopsis, genres, tags: tags.map(tag => tag.text), featuredImage, status })
     }
 
     useEffect(() => {
@@ -97,6 +99,15 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
                 />
             </div>
             <div className="flex flex-col gap-2">
+                <Label htmlFor="status">Status</Label>
+                <SelectNative id="status" value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                    <option value="hiatus">Hiatus</option>
+                    <option value="cancelled">Cancelled</option>
+                </SelectNative>
+            </div>
+            <div className="flex flex-col gap-2">
                 <Label htmlFor="name">
                     Genres
                 </Label>
@@ -107,6 +118,13 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
                     Tags
                 </Label>
                 <TagsInput tags={tags} setTags={setTags} />
+                <p
+                    className="text-muted-foreground text-xs"
+                    role="region"
+                    aria-live="polite"
+                >
+                    Enter or comma-separate tags to add
+                </p>
             </div>
             <div className="flex flex-col gap-2">
                 <Label htmlFor="name">
@@ -118,9 +136,9 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
                             <Image
                                 src={featuredImage}
                                 alt="Featured Image"
-                                className="object-cover w-full h-full"
-                                width={100}
-                                height={100}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                         </div>
                     )}

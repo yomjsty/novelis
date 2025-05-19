@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BarChart3, Settings, Menu } from "lucide-react";
+import { BarChart3, Settings, Menu, LibraryBig, TableOfContents, BookOpen } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Sheet,
@@ -24,9 +24,9 @@ export default function Sidebar({ user }: { user: User }) {
 
     const SidebarContent = () => (
         <div className="flex flex-col h-full w-full">
-            <div className="p-5 flex items-center gap-2">
+            <div className="p-[18px] flex items-center gap-2">
                 <div className="size-8 rounded-lg bg-black flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">LF</span>
+                    <span className="text-white text-xs font-bold">N</span>
                 </div>
                 <span className="font-bold text-lg">Novelis</span>
             </div>
@@ -39,20 +39,20 @@ export default function Sidebar({ user }: { user: User }) {
                     active={pathname === "/dashboard"}
                 />
                 <SidebarLink
-                    href="/dashboard/novels"
-                    icon={<BarChart3 className="size-5" />}
-                    label="Novels"
-                    active={pathname.startsWith("/dashboard/novels")}
-                />
-                <SidebarLink
                     href="/dashboard/genres"
-                    icon={<BarChart3 className="size-5" />}
+                    icon={<BookOpen className="size-5" />}
                     label="Genres"
                     active={pathname.startsWith("/dashboard/genres")}
                 />
                 <SidebarLink
+                    href="/dashboard/novels"
+                    icon={<LibraryBig className="size-5" />}
+                    label="Novels"
+                    active={pathname.startsWith("/dashboard/novels")}
+                />
+                <SidebarLink
                     href="/dashboard/chapters"
-                    icon={<BarChart3 className="size-5" />}
+                    icon={<TableOfContents className="size-5" />}
                     label="Chapters"
                     active={pathname.startsWith("/dashboard/chapters")}
                 />

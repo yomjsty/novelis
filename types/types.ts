@@ -5,6 +5,7 @@ export interface CreateNovel {
     genres: string[];
     tags: string[];
     featuredImage: string | null;
+    status: string;
 }
 
 export interface CreateChapter {

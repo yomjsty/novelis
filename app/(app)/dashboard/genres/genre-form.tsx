@@ -20,17 +20,15 @@ import { useRef, useState } from "react"
 import { toast } from "sonner"
 
 export default function GenreForm() {
-    const [name, setName] = useState("");
-    const queryClient = useQueryClient();
+    const [name, setName] = useState("")
+    const queryClient = useQueryClient()
     const dialogCloseRef = useRef<HTMLButtonElement>(null)
 
     const { mutate, isPending } = useMutation({
         mutationFn: createGenre,
         onSuccess: () => {
-            toast.success(`Genre ${name} created successfully`)
-            queryClient.invalidateQueries({
-                queryKey: ["genres"]
-            })
+            toast.success(`Genre "${name}" created successfully`)
+            queryClient.invalidateQueries({ queryKey: ["genres"] })
             setName("")
             dialogCloseRef.current?.click()
         },
@@ -47,47 +45,47 @@ export default function GenreForm() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>
-                    Create Genre
-                </Button>
+                <Button>Create Genre</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Create Genre</DialogTitle>
                     <DialogDescription>
-                        Create a new genre to categorize your novels.
+                        Add a new genre to help organize your novels.
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name">
-                            Genre Name
-                        </Label>
+                <form onSubmit={handleSubmit} className="space-y-6 pt-2">
+                    <div className="space-y-2">
+                        <Label htmlFor="name">Genre Name</Label>
                         <Input
                             id="name"
                             value={name}
-                            placeholder="action"
+                            placeholder="e.g. action"
                             onChange={(e) => setName(e.target.value)}
-                            className="col-span-3 lowercase"
+                            className="lowercase"
                             required
                         />
                     </div>
 
-                    <DialogFooter>
+                    <DialogFooter className="flex justify-between gap-2 pt-2">
                         <DialogClose asChild>
-                            <Button type="button" variant="secondary" ref={dialogCloseRef}>
-                                Close
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                ref={dialogCloseRef}
+                            >
+                                Cancel
                             </Button>
                         </DialogClose>
-                        <Button type="submit"
-                            disabled={isPending}
-                        >
+                        <Button type="submit" disabled={isPending}>
                             {isPending ? (
                                 <>
-                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                                     Creating...
                                 </>
-                            ) : 'Create Genre'}
+                            ) : (
+                                "Create Genre"
+                            )}
                         </Button>
                     </DialogFooter>
                 </form>

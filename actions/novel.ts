@@ -22,6 +22,7 @@ export async function createNovel(novel: CreateNovel) {
             title: novel.title,
             slug: novel.slug,
             synopsis: novel.synopsis,
+            status: novel.status,
             genres: {
                 connect: novel.genres.map((genreId) => ({
                     id: genreId,
@@ -48,6 +49,7 @@ export async function getAuthorNovels() {
         },
         include: {
             genres: true,
+            chapters: true,
         },
         orderBy: {
             createdAt: "desc",
@@ -112,6 +114,7 @@ export async function editNovel(id: string, novel: CreateNovel) {
             title: novel.title,
             slug: novel.slug,
             synopsis: novel.synopsis,
+            status: novel.status,
             genres: {
                 set: novel.genres.map((genreId) => ({
                     id: genreId,

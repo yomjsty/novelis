@@ -34,6 +34,13 @@ export async function createChapter(chapter: CreateChapter) {
         }
     })
 
+    await db.novel.update({
+        where: { id: chapter.novelId },
+        data: {
+            updatedAt: new Date()
+        }
+    })
+
     return createdChapter
 }
 
@@ -137,6 +144,13 @@ export async function editChapter(id: string, chapter: CreateChapter) {
             price: chapter.price
         },
     });
+
+    await db.novel.update({
+        where: { id: chapterToEdit.novelId },
+        data: {
+            updatedAt: new Date()
+        }
+    })
 
     return updatedChapter;
 }
