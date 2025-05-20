@@ -152,3 +152,22 @@ export async function deleteNovel(id: string) {
     await db.novel.delete({ where: { id: novel.id } });
     return novel;
 }
+
+export async function getFeaturedNovels() {
+    const novels = await db.novel.findMany({
+        where: { isFeatured: true },
+        include: {
+            chapters: true,
+            genres: {
+                take: 2,
+                orderBy: {
+                    name: "asc",
+                }
+            },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+    });
+
+    return novels;
+}
