@@ -1,4 +1,4 @@
-import FeaturedNovels from "./featured-novels";
+import FeaturedNovels from "../homepage/featured-novels";
 import { getFeaturedNovels } from "@/actions/novel";
 
 export default async function FetchData() {

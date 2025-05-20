@@ -171,3 +171,37 @@ export async function getFeaturedNovels() {
 
     return novels;
 }
+
+export async function getAllNovels() {
+    const novels = await db.novel.findMany({
+        include: {
+            genres: {
+                orderBy: {
+                    name: "asc",
+                },
+            },
+            chapters: {
+                orderBy: {
+                    createdAt: "desc",
+                },
+            },
+        },
+        orderBy: { createdAt: "desc" },
+    });
+    return novels;
+}
+
+export async function getNovelsByGenre(genre: string) {
+    const novels = await db.novel.findMany({
+        where: { genres: { some: { name: genre } } },
+        include: {
+            genres: true,
+            chapters: true,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    return novels;
+}
+
