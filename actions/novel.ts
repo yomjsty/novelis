@@ -3,6 +3,7 @@
 import db from "@/lib/db"
 import { getCurrentUser } from "@/lib/get-current-user"
 import { CreateNovel } from "@/types/types"
+import { revalidatePath } from "next/cache";
 
 export async function createNovel(novel: CreateNovel) {
     const user = await getCurrentUser();
@@ -36,6 +37,8 @@ export async function createNovel(novel: CreateNovel) {
         },
     });
 
+    revalidatePath("/");
+
     return createdNovel;
 }
 
@@ -66,11 +69,13 @@ export async function getNovelById(id: string) {
             genres: true,
         }
     });
+
     return novel;
 }
 
 export async function getNovelBySlug(slug: string) {
     const novel = await db.novel.findUnique({ where: { slug } });
+
     return novel;
 }
 
@@ -127,6 +132,8 @@ export async function editNovel(id: string, novel: CreateNovel) {
         },
     });
 
+    revalidatePath("/");
+
     return updatedNovel;
 }
 
@@ -150,6 +157,9 @@ export async function deleteNovel(id: string) {
     }
 
     await db.novel.delete({ where: { id: novel.id } });
+
+    revalidatePath("/");
+
     return novel;
 }
 
@@ -188,6 +198,7 @@ export async function getAllNovels() {
         },
         orderBy: { createdAt: "desc" },
     });
+
     return novels;
 }
 
@@ -210,6 +221,7 @@ export async function getNovelsByGenre(genre: string) {
             createdAt: "desc",
         },
     });
+
     return novels;
 }
 

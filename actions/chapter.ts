@@ -3,6 +3,7 @@
 import db from "@/lib/db"
 import { getCurrentUser } from "@/lib/get-current-user"
 import { CreateChapter } from "@/types/types"
+import { revalidatePath } from "next/cache";
 
 export async function createChapter(chapter: CreateChapter) {
     const user = await getCurrentUser()
@@ -40,6 +41,8 @@ export async function createChapter(chapter: CreateChapter) {
             updatedAt: new Date()
         }
     })
+
+    revalidatePath("/");
 
     return createdChapter
 }
@@ -104,6 +107,8 @@ export async function deleteChapter(id: string) {
         }
     })
 
+    revalidatePath("/");
+
     return chapter
 }
 
@@ -158,6 +163,8 @@ export async function editChapter(id: string, chapter: CreateChapter) {
             updatedAt: new Date()
         }
     })
+
+    revalidatePath("/");
 
     return updatedChapter;
 }

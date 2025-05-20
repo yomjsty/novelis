@@ -3,6 +3,7 @@
 import db from "@/lib/db"
 import { getCurrentUser } from "@/lib/get-current-user"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
+import { revalidatePath } from "next/cache"
 
 export async function createGenre(name: string) {
     const user = await getCurrentUser()
@@ -13,6 +14,9 @@ export async function createGenre(name: string) {
         const genre = await db.genre.create({
             data: { name }
         })
+
+        revalidatePath("/");
+
         return genre;
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
@@ -37,6 +41,10 @@ export async function deleteGenre(id: string) {
     if (!user) throw new Error("Unauthorized")
     if (user.role !== "admin") throw new Error("You are not authorized to delete a genre")
 
-    return await db.genre.delete({ where: { id } })
+    const deletedGenre = await db.genre.delete({ where: { id } })
+
+    revalidatePath("/");
+
+    return deletedGenre;
 }
 
