@@ -1,6 +1,8 @@
+"use client"
+
 import { FeaturedNovels } from "@/components/featured-novels";
 
-export default async function Homepage() {
+export default function Homepage() {
   return (
     <FeaturedNovels />
   );
