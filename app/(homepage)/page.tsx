@@ -1,7 +1,11 @@
 import FeaturedNovels from "./featured-novels";
-
 export default async function Homepage() {
   return (
-    <FeaturedNovels />
+    <>
+      <div className="container mx-auto">
+        Featured Novel
+      </div>
+      <FeaturedNovels />
+    </>
   );
 }
