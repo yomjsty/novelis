@@ -1,3 +1,4 @@
+import { PublishedNovelsCard } from "../(app)/dashboard/published-novels-card";
 import FeaturedNovels from "./featured-novels";
 export default async function Homepage() {
   return (
@@ -6,6 +7,7 @@ export default async function Homepage() {
         Featured Novel
       </div>
       <FeaturedNovels />
+      <PublishedNovelsCard />
     </>
   );
 }
