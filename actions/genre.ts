@@ -12,7 +12,7 @@ export async function createGenre(name: string) {
 
     try {
         const genre = await db.genre.create({
-            data: { name }
+            data: { name: name.toLowerCase() }
         })
 
         revalidatePath("/");

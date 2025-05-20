@@ -94,7 +94,7 @@ export default function EditNovelForm({ novel }: { novel: NovelWithGenres }) {
                     id="synopsis"
                     value={synopsis}
                     onChange={(e) => setSynopsis(e.target.value)}
-                    className="col-span-3 lowercase"
+                    className="col-span-3"
                     required
                 />
             </div>
