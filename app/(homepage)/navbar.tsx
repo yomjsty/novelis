@@ -17,7 +17,6 @@ import {
     Compass,
 } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useSession } from "@/lib/auth-client"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -34,7 +33,6 @@ import {
 
 export function Navbar() {
     const { setTheme, theme } = useTheme()
-    const { data: session } = useSession()
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:bg-gray-950/95 dark:border-gray-800 shadow-sm">
@@ -144,29 +142,18 @@ export function Navbar() {
                             <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-
-                    {session ? (
+                    <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" className="hidden lg:flex" asChild>
+                            <Link href="/login">Sign In</Link>
+                        </Button>
                         <Button
                             size="sm"
                             className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
                             asChild
                         >
-                            <Link href="/dashboard">Dashboard</Link>
+                            <Link href="/register">Sign Up</Link>
                         </Button>
-                    ) : (
-                        <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="sm" className="hidden lg:flex" asChild>
-                                <Link href="/login">Sign In</Link>
-                            </Button>
-                            <Button
-                                size="sm"
-                                className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
-                                asChild
-                            >
-                                <Link href="/register">Sign Up</Link>
-                            </Button>
-                        </div>
-                    )}
+                    </div>
                 </div>
 
                 <Sheet>
@@ -259,28 +246,16 @@ export function Navbar() {
                             </div>
 
                             <div className="flex items-center gap-2 mt-2">
-                                {session ? (
-                                    <Button
-                                        size="sm"
-                                        className="flex-1 bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
-                                        asChild
-                                    >
-                                        <Link href="/dashboard">Dashboard</Link>
-                                    </Button>
-                                ) : (
-                                    <>
-                                        <Button variant="outline" size="sm" className="flex-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" asChild>
-                                            <Link href="/login">Sign In</Link>
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            className="flex-1 bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
-                                            asChild
-                                        >
-                                            <Link href="/register">Sign Up</Link>
-                                        </Button>
-                                    </>
-                                )}
+                                <Button variant="outline" size="sm" className="flex-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" asChild>
+                                    <Link href="/login">Sign In</Link>
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    className="flex-1 bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
+                                    asChild
+                                >
+                                    <Link href="/register">Sign Up</Link>
+                                </Button>
                             </div>
                         </div>
                     </SheetContent>

@@ -7,20 +7,31 @@ import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { getFeaturedNovels } from "@/actions/novel"
-import { useQuery } from "@tanstack/react-query"
 
-export default function FeaturedNovels() {
+interface Novel {
+    id: string
+    title: string
+    slug: string
+    synopsis: string | null
+    isFeatured: boolean
+    featuredImage: string | null
+    tags: string[]
+    status: string
+    authorId: string
+    createdAt: Date
+    updatedAt: Date
+    genres: { id: string; name: string }[]
+    chapters: { id: string }[]
+}
+
+interface FeaturedNovelsProps {
+    featuredNovels: Novel[]
+}
+
+export default function FeaturedNovels({ featuredNovels }: FeaturedNovelsProps) {
     const [currentSlide, setCurrentSlide] = useState(0)
 
-    const { data: featuredNovels, isLoading, isError } = useQuery({
-        queryKey: ["featuredNovels"],
-        queryFn: () => getFeaturedNovels(),
-    })
-
-    if (isLoading) return <div>Loading...</div>
     if (!featuredNovels) return <div>No featured novels found</div>
-    if (isError) return <div>Error loading featured novels</div>
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev === featuredNovels.length - 1 ? 0 : prev + 1))
@@ -29,7 +40,6 @@ export default function FeaturedNovels() {
     const prevSlide = () => {
         setCurrentSlide((prev) => (prev === 0 ? featuredNovels.length - 1 : prev - 1))
     }
-
 
     return (
         <section className="w-full py-12 md:py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
