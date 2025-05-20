@@ -19,8 +19,8 @@ export function FeaturedNovels() {
     })
 
     if (isLoading) return <div>Loading...</div>
-    if (!featuredNovels) return <div>No featured novels found</div>
     if (isError) return <div>Error loading featured novels</div>
+    if (!featuredNovels) return <div>No featured novels found</div>
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev === featuredNovels.length - 1 ? 0 : prev + 1))
