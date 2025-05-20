@@ -166,7 +166,7 @@ export async function getFeaturedNovels() {
             },
         },
         orderBy: { createdAt: "desc" },
-        take: 5,
+        take: 2,
     });
 
     return novels;
