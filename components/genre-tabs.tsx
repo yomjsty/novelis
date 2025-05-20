@@ -1,7 +1,6 @@
-// app/components/GenreTabs.tsx
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { NovelCard } from "@/components/novel-card"
 import { useQuery } from "@tanstack/react-query"
@@ -27,37 +26,74 @@ type Props = {
     initialData: Novel[]
 }
 
-export function GenreTabs({ initialData }: Props) {
-    const [activeTab, setActiveTab] = useState("all")
+const genres = ["all", "action", "comedy", "school"] as const
 
-    const { data: actionNovels, refetch: refetchAction, isFetching: loadingAction } = useQuery({
+export function GenreTabs({ initialData }: Props) {
+    const [activeTab, setActiveTab] = useState<string>("all")
+
+    const actionQuery = useQuery({
         queryKey: ["genre", "action"],
         queryFn: () => getNovelsByGenre("action"),
         enabled: false,
     })
 
-    const { data: comedyNovels, refetch: refetchComedy, isFetching: loadingComedy } = useQuery({
+    const comedyQuery = useQuery({
         queryKey: ["genre", "comedy"],
         queryFn: () => getNovelsByGenre("comedy"),
         enabled: false,
     })
 
-    const { data: schoolNovels, refetch: refetchSchool, isFetching: loadingSchool } = useQuery({
+    const schoolQuery = useQuery({
         queryKey: ["genre", "school"],
         queryFn: () => getNovelsByGenre("school"),
         enabled: false,
     })
 
+    const queries = useMemo(() => ({
+        action: actionQuery,
+        comedy: comedyQuery,
+        school: schoolQuery,
+    }), [actionQuery, comedyQuery, schoolQuery])
+
     useEffect(() => {
-        if (activeTab === "action") refetchAction()
-        if (activeTab === "comedy") refetchComedy()
-        if (activeTab === "school") refetchSchool()
-    }, [activeTab, refetchAction, refetchComedy, refetchSchool])
+        if (activeTab in queries) {
+            const query = queries[activeTab as keyof typeof queries]
+            if (query.dataUpdatedAt === 0) {
+                query.refetch()
+            }
+        }
+    }, [activeTab, queries])
+
+    const renderNovels = (novels: Novel[] | undefined, isLoading: boolean, isCached: boolean) => {
+        if (isLoading && !isCached) {
+            return (
+                <p className="text-center p-12 text-muted-foreground">
+                    Loading {activeTab} novels...
+                </p>
+            )
+        }
+
+        if (!novels || novels.length === 0) {
+            return (
+                <p className="text-center p-12 text-muted-foreground">
+                    No {activeTab} novels found.
+                </p>
+            )
+        }
+
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {novels.map((novel) => (
+                    <NovelCard key={novel.id} novel={novel} />
+                ))}
+            </div>
+        )
+    }
 
     return (
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="mb-6 w-full justify-start overflow-x-auto flex-nowrap bg-muted/50 p-1 h-auto">
-                {["all", "action", "comedy", "school"].map((genre) => (
+                {genres.map((genre) => (
                     <TabsTrigger
                         key={genre}
                         value={genre}
@@ -69,48 +105,18 @@ export function GenreTabs({ initialData }: Props) {
             </TabsList>
 
             <TabsContent value="all" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {initialData?.map((novel) => (
-                        <NovelCard key={novel.id} novel={novel} />
-                    ))}
-                </div>
+                {renderNovels(initialData, false, true)}
             </TabsContent>
 
-            <TabsContent value="action" className="mt-0">
-                {loadingAction ? (
-                    <p className="text-center p-12 text-muted-foreground">Loading action novels...</p>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {actionNovels?.map((novel) => (
-                            <NovelCard key={novel.id} novel={novel} />
-                        ))}
-                    </div>
-                )}
-            </TabsContent>
-
-            <TabsContent value="comedy" className="mt-0">
-                {loadingComedy ? (
-                    <p className="text-center p-12 text-muted-foreground">Loading comedy novels...</p>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {comedyNovels?.map((novel) => (
-                            <NovelCard key={novel.id} novel={novel} />
-                        ))}
-                    </div>
-                )}
-            </TabsContent>
-
-            <TabsContent value="school" className="mt-0">
-                {loadingSchool ? (
-                    <p className="text-center p-12 text-muted-foreground">Loading school novels...</p>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {schoolNovels?.map((novel) => (
-                            <NovelCard key={novel.id} novel={novel} />
-                        ))}
-                    </div>
-                )}
-            </TabsContent>
+            {(["action", "comedy", "school"] as const).map((genre) => (
+                <TabsContent key={genre} value={genre} className="mt-0">
+                    {renderNovels(
+                        queries[genre].data,
+                        queries[genre].isFetching,
+                        queries[genre].dataUpdatedAt !== 0
+                    )}
+                </TabsContent>
+            ))}
         </Tabs>
     )
 }

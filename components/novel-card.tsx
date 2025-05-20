@@ -6,7 +6,23 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Sparkles } from "lucide-react"
 
-export function NovelCard({ novel }: { novel: any }) {
+interface Novel {
+    id: string
+    title: string
+    slug: string
+    synopsis: string | null
+    isFeatured: boolean
+    featuredImage: string | null
+    tags: string[]
+    status: string
+    authorId: string
+    createdAt: Date
+    updatedAt: Date
+    genres: { id: string; name: string }[]
+    chapters: { id: string; title?: string; slug?: string }[]
+}
+
+export function NovelCard({ novel }: { novel: Novel }) {
     return (
         <Card className="overflow-hidden hover:shadow-lg transition-all border border-gray-100 dark:border-gray-800 group">
             <CardContent className="p-0">
