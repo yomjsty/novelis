@@ -195,8 +195,16 @@ export async function getNovelsByGenre(genre: string) {
     const novels = await db.novel.findMany({
         where: { genres: { some: { name: genre } } },
         include: {
-            genres: true,
-            chapters: true,
+            genres: {
+                orderBy: {
+                    name: "asc",
+                },
+            },
+            chapters: {
+                orderBy: {
+                    createdAt: "desc",
+                },
+            },
         },
         orderBy: {
             createdAt: "desc",
