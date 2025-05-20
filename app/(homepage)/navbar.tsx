@@ -17,6 +17,7 @@ import {
     Compass,
 } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useSession } from "@/lib/auth-client"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,6 +34,7 @@ import {
 
 export function Navbar() {
     const { setTheme, theme } = useTheme()
+    const { data: session } = useSession()
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:bg-gray-950/95 dark:border-gray-800 shadow-sm">
@@ -119,7 +121,7 @@ export function Navbar() {
                     </DropdownMenu>
                 </div>
 
-                <div className="flex items-center gap-3 md:gap-4">
+                <div className="flex items-center gap-4">
                     <form className="flex relative w-full max-w-[180px] md:max-w-[220px] lg:max-w-[280px]">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -143,116 +145,146 @@ export function Navbar() {
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <div className="hidden sm:flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="hidden lg:flex">
-                            Sign In
-                        </Button>
+                    {session ? (
                         <Button
                             size="sm"
                             className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
+                            asChild
                         >
-                            Sign Up
+                            <Link href="/dashboard">Dashboard</Link>
                         </Button>
-                    </div>
-
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" className="sm:hidden">
-                                <Menu className="h-5 w-5" />
-                                <span className="sr-only">Toggle menu</span>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="sm" className="hidden lg:flex" asChild>
+                                <Link href="/login">Sign In</Link>
                             </Button>
-                        </SheetTrigger>
-                        <SheetHeader hidden></SheetHeader>
-                        <SheetTitle hidden></SheetTitle>
-                        <SheetContent side="right" className="w-[300px] sm:w-[400px] border-l p-4 overflow-scroll">
-                            <div className="flex flex-col gap-6 mt-6">
-                                <Link href="/" className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                    Home
-                                </Link>
+                            <Button
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
+                                asChild
+                            >
+                                <Link href="/register">Sign Up</Link>
+                            </Button>
+                        </div>
+                    )}
+                </div>
 
-                                <div className="space-y-4">
-                                    <p className="text-sm font-medium">Explore</p>
-                                    <div className="pl-4 border-l border-gray-200 dark:border-gray-800 space-y-6">
-                                        <div className="space-y-3">
-                                            <p className="text-xs font-medium text-muted-foreground">Browse</p>
-                                            <div className="pl-2 space-y-2.5">
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Fantasy
-                                                </Link>
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Romance
-                                                </Link>
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Adventure
-                                                </Link>
-                                            </div>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon" className="sm:hidden">
+                            <Menu className="h-5 w-5" />
+                            <span className="sr-only">Toggle menu</span>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetHeader hidden></SheetHeader>
+                    <SheetTitle hidden></SheetTitle>
+                    <SheetContent>
+                        <div className="flex flex-col gap-6 mt-6">
+                            <Link href="/" className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                Home
+                            </Link>
+
+                            <div className="space-y-4">
+                                <p className="text-sm font-medium">Explore</p>
+                                <div className="pl-4 border-l border-gray-200 dark:border-gray-800 space-y-6">
+                                    <div className="space-y-3">
+                                        <p className="text-xs font-medium text-muted-foreground">Browse</p>
+                                        <div className="pl-2 space-y-2.5">
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Fantasy
+                                            </Link>
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Romance
+                                            </Link>
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Adventure
+                                            </Link>
                                         </div>
+                                    </div>
 
-                                        <div className="space-y-3">
-                                            <p className="text-xs font-medium text-muted-foreground">Rankings</p>
-                                            <div className="pl-2 space-y-2.5">
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Power Ranking
-                                                </Link>
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Collection Ranking
-                                                </Link>
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Trending Now
-                                                </Link>
-                                            </div>
+                                    <div className="space-y-3">
+                                        <p className="text-xs font-medium text-muted-foreground">Rankings</p>
+                                        <div className="pl-2 space-y-2.5">
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Power Ranking
+                                            </Link>
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Collection Ranking
+                                            </Link>
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Trending Now
+                                            </Link>
                                         </div>
+                                    </div>
 
-                                        <div className="space-y-3">
-                                            <p className="text-xs font-medium text-muted-foreground">Latest</p>
-                                            <div className="pl-2 space-y-2.5">
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Today&apos;s Updates
-                                                </Link>
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    New Releases
-                                                </Link>
-                                            </div>
+                                    <div className="space-y-3">
+                                        <p className="text-xs font-medium text-muted-foreground">Latest</p>
+                                        <div className="pl-2 space-y-2.5">
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Today&apos;s Updates
+                                            </Link>
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                New Releases
+                                            </Link>
                                         </div>
+                                    </div>
 
-                                        <div className="space-y-3">
-                                            <p className="text-xs font-medium text-muted-foreground">Bookmarks</p>
-                                            <div className="pl-2 space-y-2.5">
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Reading List
-                                                </Link>
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Completed
-                                                </Link>
-                                                <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                    Favorites
-                                                </Link>
-                                            </div>
+                                    <div className="space-y-3">
+                                        <p className="text-xs font-medium text-muted-foreground">Bookmarks</p>
+                                        <div className="pl-2 space-y-2.5">
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Reading List
+                                            </Link>
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Completed
+                                            </Link>
+                                            <Link href="#" className="block text-sm text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                Favorites
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div className="flex items-center gap-2 mt-2">
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        className="flex-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                                    >
-                                        {theme === "dark" ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
-                                        {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                                    </Button>
-                                </div>
-
-                                <div className="flex items-center gap-2 mt-2">
-                                    <Button variant="outline" size="sm" className="flex-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                                        Sign In
-                                    </Button>
-                                </div>
                             </div>
-                        </SheetContent>
-                    </Sheet>
-                </div>
+
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="flex-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                                >
+                                    {theme === "dark" ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
+                                    {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                                </Button>
+                            </div>
+
+                            <div className="flex items-center gap-2 mt-2">
+                                {session ? (
+                                    <Button
+                                        size="sm"
+                                        className="flex-1 bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
+                                        asChild
+                                    >
+                                        <Link href="/dashboard">Dashboard</Link>
+                                    </Button>
+                                ) : (
+                                    <>
+                                        <Button variant="outline" size="sm" className="flex-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" asChild>
+                                            <Link href="/login">Sign In</Link>
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            className="flex-1 bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow transition-all"
+                                            asChild
+                                        >
+                                            <Link href="/register">Sign Up</Link>
+                                        </Button>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </SheetContent>
+                </Sheet>
             </div>
         </header>
     )
