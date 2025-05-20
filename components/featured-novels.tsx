@@ -30,6 +30,7 @@ export function FeaturedNovels() {
         setCurrentSlide((prev) => (prev === 0 ? featuredNovels.length - 1 : prev - 1))
     }
 
+
     return (
         <section className="w-full py-12 md:py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
             <div className="container px-4 md:px-6 mx-auto max-w-7xl">
