@@ -1,4 +1,5 @@
 import FetchData from "@/components/public/fetching/fetch-featured-novels";
+import { EditorsChoice } from "@/components/public/homepage/editors-choice";
 import { LatestUpdates } from "@/components/public/homepage/latest-updates";
 import { Suspense } from "react";
 // import { NewArrivals } from "@/components/public/homepage/new-arrivals";
@@ -11,6 +12,9 @@ export default async function Homepage() {
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <FetchData />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EditorsChoice />
       </Suspense>
       <Suspense fallback={<div>Loading...</div>}>
         <LatestUpdates />
