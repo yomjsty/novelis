@@ -74,7 +74,21 @@ export async function getNovelById(id: string) {
 }
 
 export async function getNovelBySlug(slug: string) {
-    const novel = await db.novel.findUnique({ where: { slug } });
+    const novel = await db.novel.findUnique({
+        where: { slug }, include: {
+            genres: {
+                orderBy: {
+                    name: "asc",
+                },
+            },
+            chapters: {
+                orderBy: {
+                    createdAt: "desc",
+                },
+            },
+            author: true,
+        }
+    });
 
     return novel;
 }
@@ -224,4 +238,3 @@ export async function getNovelsByGenre(genre: string) {
 
     return novels;
 }
-

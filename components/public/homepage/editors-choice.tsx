@@ -16,6 +16,8 @@ export function EditorsChoice() {
     if (isError) return <div>Error loading novels</div>
     if (!editorsPicks) return <div>No novels found</div>
 
+    // const randomEditorsPicks = editorsPicks.sort(() => Math.random() - 0.5).slice(0, 6)
+
     return (
         <section className="w-full py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
             <div className="container px-4 mx-auto max-w-7xl">
