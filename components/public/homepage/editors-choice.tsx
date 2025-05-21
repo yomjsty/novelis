@@ -7,13 +7,17 @@ import { getAllNovels } from "@/actions/novel"
 import { useQuery } from "@tanstack/react-query"
 
 export function EditorsChoice() {
-    const editorsPicks = useQuery({
+    const { data: editorsPicks, isLoading, isError } = useQuery({
         queryKey: ["novels"],
         queryFn: () => getAllNovels(),
     })
 
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <div>Error loading novels</div>
+    if (!editorsPicks) return <div>No novels found</div>
+
     return (
-        <section className="w-full py-12 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
+        <section className="w-full py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
             <div className="container px-4 mx-auto max-w-7xl">
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
@@ -34,7 +38,7 @@ export function EditorsChoice() {
                 </div>
 
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {editorsPicks.data?.map((novel) => (
+                    {editorsPicks.map((novel) => (
                         <Link href="#" key={novel.id}>
                             <div className="flex items-start gap-3 group p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
                                 <div className="relative aspect-[2/3] h-24 overflow-hidden rounded-md shadow-md">
