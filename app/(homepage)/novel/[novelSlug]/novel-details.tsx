@@ -24,13 +24,22 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useParams } from "next/navigation"
 import { getNovelBySlug } from "@/actions/novel"
 import { useQuery } from "@tanstack/react-query"
+import { useState } from "react"
 
 export default function NovelDetailPage() {
-    const { slug } = useParams();
+    const { novelSlug } = useParams();
+    const [activeTab, setActiveTab] = useState("synopsis");
 
     const { data: novel, isLoading, isError } = useQuery({
-        queryKey: ["novel", slug],
-        queryFn: () => getNovelBySlug(slug as string),
+        queryKey: ["novel", novelSlug],
+        queryFn: () => getNovelBySlug(novelSlug as string),
+    });
+
+    const { data: chapters, isLoading: isLoadingChapters } = useQuery({
+        queryKey: ["novel", novelSlug, "chapters"],
+        queryFn: () => getNovelBySlug(novelSlug as string),
+        enabled: activeTab === "chapters",
+        select: (data) => data?.chapters || [],
     });
 
     if (isLoading) return <div>Loading...</div>
@@ -179,7 +188,7 @@ export default function NovelDetailPage() {
             </section>
             <section className="w-full py-8">
                 <div className="container px-4 mx-auto max-w-7xl">
-                    <Tabs defaultValue="synopsis" className="w-full">
+                    <Tabs defaultValue="synopsis" className="w-full" onValueChange={setActiveTab}>
                         <TabsList className="mb-6 w-full justify-start overflow-x-auto flex-nowrap bg-muted/50 p-1 h-auto">
                             <TabsTrigger
                                 value="synopsis"
@@ -248,32 +257,35 @@ export default function NovelDetailPage() {
                                 </Button>
                             </div>
 
-                            <div className="space-y-2">
-                                {novel.chapters.map((chapter) => (
-                                    <Link href={`/novel/${novel.slug}/chapter/${chapter.slug}`} key={chapter.id}>
-                                        <Card className="hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
-                                            <CardContent className="p-4 flex items-center justify-between">
-                                                <div className="flex-1">
+                            <div className="flex flex-col gap-4">
+                                {isLoadingChapters ? (
+                                    <div>Loading chapters...</div>
+                                ) : (
+                                    chapters?.map((chapter) => (
+                                        <Link href={`/novel/${novel.slug}/chapter/${chapter.slug}`} key={chapter.id}>
+                                            <Card className="hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
+                                                <CardContent className="flex items-center justify-between">
+                                                    <div className="flex-1">
+                                                        <div className="flex items-center gap-2">
+                                                            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                                                {chapter.title}
+                                                            </Badge>
+                                                            <span className="text-sm text-muted-foreground">{chapter.createdAt.toLocaleDateString()}</span>
+                                                        </div>
+                                                        <h4 className="font-medium mt-1">{chapter.title}</h4>
+                                                    </div>
                                                     <div className="flex items-center gap-2">
-                                                        <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                                                            {chapter.title}
-                                                        </Badge>
-                                                        <span className="text-sm text-muted-foreground">{chapter.createdAt.toLocaleDateString()}</span>
+                                                        <div className="flex items-center gap-1 text-muted-foreground">
+                                                            <Eye className="h-4 w-4" />
+                                                            <span className="text-sm">4</span>
+                                                        </div>
+                                                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
                                                     </div>
-                                                    <h4 className="font-medium mt-1">{chapter.title}</h4>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <div className="flex items-center gap-1 text-muted-foreground">
-                                                        <Eye className="h-4 w-4" />
-                                                        <span className="text-sm">4</span>
-                                                        {/* <span className="text-sm">{chapter.views.toLocaleString()}</span> */}
-                                                    </div>
-                                                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    </Link>
-                                ))}
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
+                                    ))
+                                )}
                             </div>
 
                             <div className="flex justify-center mt-6">

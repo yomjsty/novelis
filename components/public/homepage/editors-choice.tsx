@@ -1,20 +1,21 @@
-"use client"
+// "use client"
 
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight, Award } from "lucide-react"
 import { getAllNovels } from "@/actions/novel"
-import { useQuery } from "@tanstack/react-query"
+// import { useQuery } from "@tanstack/react-query"
 
-export function EditorsChoice() {
-    const { data: editorsPicks, isLoading, isError } = useQuery({
-        queryKey: ["novels"],
-        queryFn: () => getAllNovels(),
-    })
+export async function EditorsChoice() {
+    const editorsPicks = await getAllNovels()
+    // const { data: editorsPicks, isLoading, isError } = useQuery({
+    //     queryKey: ["novels"],
+    //     queryFn: () => getAllNovels(),
+    // })
 
-    if (isLoading) return <div>Loading...</div>
-    if (isError) return <div>Error loading novels</div>
-    if (!editorsPicks) return <div>No novels found</div>
+    // if (isLoading) return <div>Loading...</div>
+    // if (isError) return <div>Error loading novels</div>
+    // if (!editorsPicks) return <div>No novels found</div>
 
     // const randomEditorsPicks = editorsPicks.sort(() => Math.random() - 0.5).slice(0, 6)
 

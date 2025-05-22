@@ -168,3 +168,33 @@ export async function editChapter(id: string, chapter: CreateChapter) {
 
     return updatedChapter;
 }
+
+export async function getChapterBySlug(novelSlug: string, chapterSlug: string) {
+    const chapter = await db.chapter.findFirst({
+        where: {
+            slug: chapterSlug,
+            novel: {
+                slug: novelSlug
+            }
+        },
+        include: {
+            novel: {
+                include: {
+                    author: true,
+                    genres: true,
+                    chapters: {
+                        orderBy: {
+                            createdAt: "asc"
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    if (!chapter) {
+        throw new Error("Chapter not found");
+    }
+
+    return chapter;
+}
